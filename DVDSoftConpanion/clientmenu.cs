@@ -21,17 +21,15 @@ namespace DVDSoftConpanion
             Rect Lt = r.OffsetPin(Widget.DrawPoint.Center);
             Lt.x1++;
             Lt.y1 += 2;
-            onPage.Add(new Textbox("1) Add a new movie DVD", Lt));
+            onPage.Add(new Textbox("1) Display All DVDs", Lt));
             Lt.y1++;
-            onPage.Add(new Textbox("2) Remove a movie DVD", Lt));
+            onPage.Add(new Textbox("2) Borrow DVD", Lt));
             Lt.y1++;
-            onPage.Add(new Textbox("3) Register a new Member", Lt));
+            onPage.Add(new Textbox("3) Return DVD", Lt));
             Lt.y1++;
-            onPage.Add(new Textbox("4) Find a registered", Lt));
+            onPage.Add(new Textbox("4) Show Loaned", Lt));
             Lt.y1++;
-            Lt.x1 += 3;
-            onPage.Add(new Textbox("members phone number", Lt));
-            Lt.x1 -= 3;
+            onPage.Add(new Textbox("5) Display top 10", Lt));
             Lt.y1 += 1;
             onPage.Add(new Textbox("0) Return", Lt));
         }
@@ -45,16 +43,16 @@ namespace DVDSoftConpanion
                     status = -1;
                     break;
                 case ConsoleKey.D1:
-                    status = 5;
+                    status = 10;
                     break;
                 case ConsoleKey.D2:
-                    status = 6;
+                    status = 11;
                     break;
                 case ConsoleKey.D3:
-                    status = 7;
+                    status = 12;
                     break;
                 case ConsoleKey.D4:
-                    status = 8;
+                    status = 13;
                     break;
                 case ConsoleKey.D0:
                     status = -1;

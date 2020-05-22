@@ -238,6 +238,18 @@ namespace DVDSoftConpanion
                     case 9:
                         stateTransitioner = ClientMenuLoop(g);
                         break;
+                    case 10:
+                        stateTransitioner = DisplayAllMenuLoop(g);
+                        break;
+                    case 11:
+                        stateTransitioner = BorrowDVDMenuLoop(g);
+                        break;
+                    case 12:
+                        stateTransitioner = ReturnDVDMenuLoop(g);
+                        break;
+                    case 13:
+                        stateTransitioner = ListTopTenMenuLoop(g);
+                        break;
                     default:
                         ErrorPageLoop(g, errorHolder);
                         keepLooping = false;
@@ -325,6 +337,26 @@ namespace DVDSoftConpanion
         {
             PhoneLookupMenu mm = new PhoneLookupMenu(g);
             return GenericMenu(g, mm);
+        }
+        static int DisplayAllMenuLoop(Graphics g)
+        {
+            return -1;
+        }
+        static int BorrowDVDMenuLoop(Graphics g)
+        {
+            return -1;
+        }
+        static int ReturnDVDMenuLoop(Graphics g)
+        {
+            return -1;
+        }
+        static int ListBorrowedMenuLoop(Graphics g)
+        {
+            return -1;
+        }
+        static int ListTopTenMenuLoop(Graphics g)
+        {
+            return -1;
         }
         static int ErrorPageLoop(Graphics g, Exception e)
         {
