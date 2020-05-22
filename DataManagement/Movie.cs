@@ -63,6 +63,10 @@ namespace DataManagement
         {
             quanitiy++;
         }
+        public void Add(int quantity)
+        {
+            this.quanitiy = quantity;
+        }
 
     }
 }

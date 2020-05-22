@@ -14,23 +14,27 @@ namespace DVDSoftConpanion
             onPage = new List<Widget>();
             this.g = g;
             status = 0;
-            Rect r = new Rect(g.width / 2, (g.width / 2) + 20, g.height / 2, g.height / 2 + 15);
+            Rect r = new Rect(g.width / 2, (g.width / 2) + 25, g.height / 2, g.height / 2 + 15);
             Rect rect = r.OffsetPin(Widget.DrawPoint.Center);
             onPage.Add(new Frame('=', ConsoleColor.Yellow, ConsoleColor.Black, r, Widget.DrawPoint.Center));
             rect.y1 = rect.y1 - 1;
             rect.y2 = rect.y1 + 1;
-            onPage.Add(new Textbox("Staff Login", ConsoleColor.Green, rect, Widget.DrawPoint.TopLeft));
+            onPage.Add(new Textbox("Staff Menu", ConsoleColor.Green, rect, Widget.DrawPoint.TopLeft));
             Rect Lt = r.OffsetPin(Widget.DrawPoint.Center);
             Lt.x1++;
             Lt.y1 += 2;
-            onPage.Add(new Textbox("1) Add DVD", Lt));
+            onPage.Add(new Textbox("1) Add a new movie DVD", Lt));
             Lt.y1++;
-            onPage.Add(new Textbox("2) Remove DVD", Lt));
+            onPage.Add(new Textbox("2) Remove a movie DVD", Lt));
             Lt.y1++;
-            onPage.Add(new Textbox("3) Register Member", Lt));
+            onPage.Add(new Textbox("3) Register a new Member", Lt));
             Lt.y1++;
-            onPage.Add(new Textbox("4) Find Contact Number", Lt));
+            onPage.Add(new Textbox("4) Find a registered", Lt));
             Lt.y1++;
+            Lt.x1 += 3;
+            onPage.Add(new Textbox("members phone number", Lt));
+            Lt.x1 -= 3;
+            Lt.y1+= 1;
             onPage.Add(new Textbox("0) Return", Lt));
         }
 

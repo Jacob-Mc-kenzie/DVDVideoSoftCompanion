@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CompactGraphics;
+using DataManagement;
 
 namespace DVDSoftConpanion
 {
     class Program
     {
+            public static MemberCollection members = new MemberCollection();
+            public static MovieCollection movieCollection = new MovieCollection();
         #region Circles
         public struct circle
         {
@@ -181,6 +184,7 @@ namespace DVDSoftConpanion
         static void Main(string[] args)
         {
             Graphics g = new Graphics(140, 60);
+
             int stateTransitioner;
             bool keepLooping = true;
             Exception errorHolder = new Exception("Unknown");
@@ -291,15 +295,18 @@ namespace DVDSoftConpanion
         }
         static int RemoveDVDMenuLoop(Graphics g)
         {
-            return -1;
+            RemoveDVDMenu mm = new RemoveDVDMenu(g);
+            return GenericMenu(g, mm);
         }
         static int RegisterMemberMenuLoop(Graphics g)
         {
-            return -1;
+            RegisterClientMenu mm = new RegisterClientMenu(g);
+            return GenericMenu(g, mm);
         }
         static int LookupPhoneMenuLoop(Graphics g)
         {
-            return -1;
+            PhoneLookupMenu mm = new PhoneLookupMenu(g);
+            return GenericMenu(g, mm);
         }
         static int ErrorPageLoop(Graphics g, Exception e)
         {
@@ -314,7 +321,22 @@ namespace DVDSoftConpanion
                 g.Draw($"frameTime: {g.FrameTime}", ConsoleColor.White, 0, 1);
                 if (Console.KeyAvailable)
                 {
-                    M.StepFrame(Console.ReadKey());
+                    ConsoleKeyInfo info = Console.ReadKey(false);
+                    switch (info.Key)
+                    {
+                        case ConsoleKey.End:
+                            ConsoleKeyInfo key = Console.ReadKey(false);
+                            return int.Parse(key.KeyChar.ToString());
+                        case ConsoleKey.LeftArrow:
+                        case ConsoleKey.RightArrow:
+                        case ConsoleKey.LeftWindows:
+                        case ConsoleKey.RightWindows:
+                            break;
+                        default:
+                            M.StepFrame(info);
+                            break;
+
+                    }
                 }
                 else
                 {

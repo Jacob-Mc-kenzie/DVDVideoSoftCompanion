@@ -5,50 +5,80 @@ namespace CompactGraphics
     public class Textbox : Widget
     {
         List<string> lines;
-        ConsoleColor forcolor;
-        
+        private System.ConsoleColor flashColor;
+        private System.Timers.Timer eventDelay;
+
         public Textbox(string text, Rect r)
         {
+            eventDelay = new System.Timers.Timer(200);
             this.baseBounds = r;
-            this.bounds = r;
+            this.Bounds = r;
             lines = text.Wrap(Math.Abs(r.x2 - r.x1));
-            forcolor = ConsoleColor.White;
-            this.pin = DrawPoint.TopLeft;
+            forColor = ConsoleColor.White;
+            this.Pin = DrawPoint.TopLeft;
         }
 
         public Textbox(string text,ConsoleColor forcolor, Rect r, DrawPoint p) :this(text,r)
         {
-            this.forcolor = forcolor;
-            this.pin = p;
-            bounds = baseBounds.OffsetPin(p);
+            this.forColor = forcolor;
+            this.Pin = p;
+            Bounds = baseBounds.OffsetPin(p);
+        }
+        /// <summary>
+        /// Change the forgroud color of the specified widget for 200 ms
+        /// </summary>
+        /// <param name="color">the color to flash to</param>
+        public void Flash(System.ConsoleColor color)
+        {
+            flashColor = forColor;
+            forColor = color;
+            eventDelay.Enabled = true;
+            eventDelay.Elapsed += Delayed_Flash;
+            eventDelay.AutoReset = false;
+        }
+        /// <summary>
+        /// Callback for the event timer.
+        /// </summary>
+        private void Delayed_Flash(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            forColor = flashColor;
         }
 
         public override void Draw(Graphics g)
         {
             for (int i = 0; i < lines.Count; i++)
             {
-                if(bounds.y1 + i <= bounds.y2)
+                if(Bounds.y1 + i <= Bounds.y2)
                 {
-                    g.Draw(lines[i], forcolor, bounds.x1, bounds.y1 + i);
+                    g.Draw(lines[i], forColor, Bounds.x1, Bounds.y1 + i);
                 }
             }
 
         }
-        public override void reSize(Rect rect)
+        public void SetText(string text)
+        {
+            lines = text.Wrap(Math.Abs(baseBounds.x2 - baseBounds.x1));
+        }
+        public override void ReSize(Rect rect)
         {
             this.baseBounds = rect;
-            this.bounds = rect.OffsetPin(this.pin);
+            this.Bounds = rect.OffsetPin(this.Pin);
         }
         public override void PinTo(DrawPoint point)
         {
-            this.pin = point;
-            this.bounds = baseBounds.OffsetPin(pin);
+            this.Pin = point;
+            this.Bounds = baseBounds.OffsetPin(Pin);
         }
 
         public override void Draw(Graphics g, ConsoleKeyInfo keyInfo)
         {
             Draw(g);
             //ToDo
+        }
+
+        public override void SetColor(ConsoleColor color)
+        {
+            this.forColor = color;
         }
     }
 

@@ -49,10 +49,14 @@ namespace DVDSoftConpanion
             switch (keyinfo.Key)
             {
                 case ConsoleKey.Tab:
+                case ConsoleKey.DownArrow:
+                case ConsoleKey.PageDown:
+                case ConsoleKey.UpArrow:
+                case ConsoleKey.PageUp:
                     active = (active == 1 ? 2 : 1);
-                    Rect bounds = cursorIcon.bounds;
+                    Rect bounds = cursorIcon.Bounds;
                     bounds.y1 = (active == 1 ? bounds.y1 - 2 : bounds.y1 + 2);
-                    cursorIcon.reSize(bounds);
+                    cursorIcon.ReSize(bounds);
                     break;
                 case ConsoleKey.Enter:
                     if (Login())
@@ -60,6 +64,9 @@ namespace DVDSoftConpanion
                     break;
                 case ConsoleKey.Escape:
                     status = -1;
+                    break;
+                case ConsoleKey.LeftArrow:
+                case ConsoleKey.RightArrow:
                     break;
                 default:
                     (active == 1? username : password).Draw(g, keyinfo);

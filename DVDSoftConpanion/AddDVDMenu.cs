@@ -27,8 +27,8 @@ namespace DVDSoftConpanion
             Rect r = new Rect(g.width / 2, (g.width / 2) + 30, g.height / 2, g.height / 2 + 20);
             Rect rect = r.OffsetPin(Widget.DrawPoint.Center);
             onPage.Add(new Frame('=', ConsoleColor.Yellow, ConsoleColor.Black, r, Widget.DrawPoint.Center));
-            rect.y1 = rect.y1 - 1;
-            rect.y2 = rect.y1 + 1;
+            rect.y1 -= 1;
+            rect.y2 += 1;
             onPage.Add(new Textbox("Add DVD", ConsoleColor.Green, rect, Widget.DrawPoint.TopLeft));
             Rect Lt = r.OffsetPin(Widget.DrawPoint.Center);
             Lt.x1++;
@@ -38,7 +38,7 @@ namespace DVDSoftConpanion
             title = new TextEntry(Lt.x1 + 1, Lt.y1, 25);
             cursor = new Textbox("~", ConsoleColor.DarkYellow, Lt, Widget.DrawPoint.TopLeft);
             onPage.Add(cursor);
-            baseCursorBounds = cursor.bounds;
+            baseCursorBounds = cursor.Bounds;
             onPage.Add(title);
             Lt.y1++;
             onPage.Add(new Textbox("Starring (commar seperated)", Lt));
@@ -83,16 +83,22 @@ namespace DVDSoftConpanion
             {
                 case ConsoleKey.Enter:
                     if (ValidateData())
-                    {
-
-                    }
-                    
+                        status = 4;
                     break;
                 case ConsoleKey.Tab:
+                case ConsoleKey.DownArrow:
+                case ConsoleKey.PageDown:
                     tabIndex = (tabIndex + 1) % textEntries.Length;
                     Rect bounds = baseCursorBounds;
                     bounds.y1 = baseCursorBounds.y1 + (2 * tabIndex);
-                    cursor.reSize(bounds);
+                    cursor.ReSize(bounds);
+                    break;
+                case ConsoleKey.UpArrow:
+                case ConsoleKey.PageUp:
+                    tabIndex = (tabIndex - 1) % textEntries.Length;
+                    Rect bound = baseCursorBounds;
+                    bound.y1 = baseCursorBounds.y1 + (2 * tabIndex);
+                    cursor.ReSize(bound);
                     break;
                 case ConsoleKey.Escape:
                     status = 4;
@@ -141,6 +147,13 @@ namespace DVDSoftConpanion
                 quantity.Flash(ConsoleColor.Red);
                 success = false;
             }
+            if (success)
+            {
+                string[] s = duration.Text.Split(':');
+                int[] dur = new int[] { int.Parse(s[0]), int.Parse(s[1]), int.Parse(s[2]) };
+                Program.movieCollection.AddDVD(new Movie(title.Text, starring.Text.Split(','), director.Text, dur, genre.Text.FriendlyGenreName(), classification.Text.FriendlyClassName(), int.Parse(quantity.Text)));
+            }
+                
             return success;
         }
     }

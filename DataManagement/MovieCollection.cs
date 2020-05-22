@@ -21,7 +21,7 @@ namespace DataManagement
             Movie exists = DoesExits(movie.Title);
             if(exists != null)
             {
-                exists.Return();
+                exists.Add(movie.Quantity);
             }
             else if (StoredDvd == null)
             {
@@ -29,25 +29,96 @@ namespace DataManagement
             }
             else
             {
-                
+                DVDTree point = StoredDvd;
+                DVDTree temp;
+                DVDTree toAdd = new DVDTree(movie);
+                while (true)
+                {
+                    temp = point;
+                    if(String.Compare(toAdd.Value.Title, point.Value.Title, StringComparison.Ordinal) < 0)
+                    {
+                        point = point.Left;
+                        if(point == null)
+                        {
+                            temp.Left = toAdd;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        point = point.Right;
+                        if(point == null)
+                        {
+                            temp.Right = toAdd;
+                            break;
+                        }
+                    }
+                }
                 //todo: insert movie to the binary tree, https://www.csharpstar.com/csharp-program-to-implement-binary-search-tree/ perhaps
             }
         }
-        /// <summary>
-        /// Removes a film from the public database, will be marked as deleted and moved to 'deleted items'
-        /// </summary>
-        /// <param name="movie">the movie object to remove</param>
-        public void RemoveMovie(Movie movie)
+        private DVDTree RemoveRecursivly(DVDTree R, Movie M)
         {
-            //todo: check if film exists, if so, either remove from the tree and put in a list of deleted items, or, mark as deleted and leave in the tree.
+            if (R == null)
+                return R;
+            int ordinalComparison = String.Compare(M.Title, R.Value.Title, StringComparison.Ordinal);
+            if (ordinalComparison < 0)
+            {
+                R.Left = RemoveRecursivly(R.Left, M);
+            }
+            else if (ordinalComparison > 0)
+            {
+                R.Right = RemoveRecursivly(R.Right, M);
+            }
+            else
+            {
+                if (R.Left == null)
+                {
+                    return R.Right;
+                }
+                else if (R.Right == null)
+                {
+                    return R.Left;
+                }
+                else
+                {
+                    R.Value = FindMin(R.Right);
+                    R.Right = RemoveRecursivly(R.Right, R.Value);
+                }
+            }
+            return R;
+        }
+        private Movie FindMin(DVDTree r)
+        {
+            Movie min = r.Value;
+            while (r.Left != null)
+            {
+                min = r.Left.Value;
+                r = r.Left;
+            }
+            return min;
         }
         /// <summary>
-        /// Removes a film from the public database, will be marked as deleted and moved to 'deleted items'
+        /// Removes a film from the public database.
+        /// </summary>
+        /// <param name="movie">the movie object to remove</param>
+        public string RemoveMovie(Movie movie)
+        {
+            StoredDvd = RemoveRecursivly(StoredDvd, movie);
+            return "Success";
+        }
+        /// <summary>
+        /// Removes a film from the public database.
         /// </summary>
         /// <param name="title">the title of the film to remove</param>
-        public void RemoveMovie(string title)
+        public string RemoveMovie(string title)
         {
-            //""
+            Movie movie = DoesExits(title);
+            if(movie != null)
+            {
+                return RemoveMovie(movie);
+            }
+            return "Movie Could not be found";
         }
         private Movie DoesExits(string title)
         {
@@ -64,7 +135,7 @@ namespace DataManagement
                 }
                 else
                 {
-                    if (String.Compare(root.Value.Title, title) < 0) // https://docs.microsoft.com/en-us/dotnet/csharp/how-to/compare-strings
+                    if (String.Compare(root.Value.Title, title, StringComparison.Ordinal) < 0) // https://docs.microsoft.com/en-us/dotnet/csharp/how-to/compare-strings
                     {
                         if (root.Right != null)
                         {
@@ -83,7 +154,7 @@ namespace DataManagement
                             break;
                     }
                 }
-            } while (foundFilm != null && (root.Left != null || root.Right != null));
+            } while (foundFilm == null);
 
             return foundFilm;
         }

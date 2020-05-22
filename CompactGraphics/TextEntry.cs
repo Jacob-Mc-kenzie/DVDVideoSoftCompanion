@@ -3,7 +3,6 @@
     public class TextEntry : Widget
     {
         private string text;
-        private System.ConsoleColor forColor;
         private System.ConsoleColor flashColor;
         public string Text { get { return text; } }
         private System.Timers.Timer eventDelay;
@@ -18,8 +17,8 @@
             eventDelay = new System.Timers.Timer(200);
             this.text = "";
             this.baseBounds = new Rect(x, x + maxlenght, y, y + 1);
-            this.pin = DrawPoint.TopLeft;
-            this.bounds = new Rect(x, x + maxlenght, y, y + 1);
+            this.Pin = DrawPoint.TopLeft;
+            this.Bounds = new Rect(x, x + maxlenght, y, y + 1);
             this.forColor = System.ConsoleColor.White;
         }
         public TextEntry(int x, int y, int maxlenght, System.ConsoleColor forground, string placeholder) : this(x,y,maxlenght)
@@ -52,26 +51,26 @@
         /// <param name="g">the graphics object to draw to</param>
         public override void Draw(Graphics g)
         {
-            int diffrence = (bounds.x2 - bounds.x1);
+            int diffrence = (Bounds.x2 - Bounds.x1);
             int iDif;
-            for (int i = bounds.x2; i >= bounds.x1; i--)
+            for (int i = Bounds.x2; i >= Bounds.x1; i--)
             {
-                iDif = i - bounds.x1;
+                iDif = i - Bounds.x1;
                 // if the length of the text is greater than the width of the text box offset the 0 point by the overlap.
                 if(text.Length > diffrence)
                 {
-                    g.Draw(text[iDif+(text.Length - diffrence-1)], forColor, i, bounds.y1);
+                    g.Draw(text[iDif+(text.Length - diffrence-1)], forColor, i, Bounds.y1);
                 }
                 else
                 {
                     //otherwise draw either the text of the unflled character.
                     if(iDif < text.Length)
                     {
-                        g.Draw(text[iDif], forColor, i, bounds.y1);
+                        g.Draw(text[iDif], forColor, i, Bounds.y1);
                     }
                     else
                     {
-                      g.Draw('_', forColor, i, bounds.y1);
+                      g.Draw('_', forColor, i, Bounds.y1);
                     }
                 }
                 
@@ -96,15 +95,19 @@
             Draw(g);
         }
 
-        public override void reSize(Rect rect)
+        public override void ReSize(Rect rect)
         {
             this.baseBounds = rect;
-            this.bounds = rect.OffsetPin(this.pin);
+            this.Bounds = rect.OffsetPin(this.Pin);
         }
         public override void PinTo(DrawPoint point)
         {
-            this.pin = point;
-            this.bounds = baseBounds.OffsetPin(pin);
+            this.Pin = point;
+            this.Bounds = baseBounds.OffsetPin(Pin);
+        }
+        public override void SetColor(System.ConsoleColor color)
+        {
+            this.forColor = color;
         }
     }
 }

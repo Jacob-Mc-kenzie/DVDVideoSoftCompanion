@@ -3,7 +3,7 @@
     public struct AdressT
     {
         public int number;
-        public char numberappend;
+        public string numberappend;
         public string street;
         public string postcode;
         public string suburb;
@@ -13,7 +13,7 @@
             this.number = number;
             this.street = street;
             this.postcode = postcode;
-            this.numberappend = ' ';
+            this.numberappend = "";
             this.suburb = "";
         }
 
@@ -22,7 +22,7 @@
             this.suburb = suburb;
         }
 
-        public AdressT(int number, char numberappend, string street, string postcode, string suburb) : this(number,street,postcode,suburb)
+        public AdressT(int number, string numberappend, string street, string postcode, string suburb) : this(number,street,postcode,suburb)
         {
             this.numberappend = numberappend;
         }
@@ -32,12 +32,12 @@
         private string firstNmae;
         private string surName;
         private string password;
-        private AdressT adress;
+        private string adress;
         private string phonenumber;
         public string userName { get { return surName + firstNmae; } }
         private MovieCollection borrowed;
 
-        public Member(string firstNmae, string surName, string phoneNumber, string password, AdressT adress)
+        public Member(string firstNmae, string surName, string phoneNumber, string password, string adress)
         {
             this.firstNmae = firstNmae;
             this.surName = surName;
@@ -52,7 +52,7 @@
             return this.password == password;
         }
 
-        public AdressT GetAdress()
+        public string GetAdress()
         {
             return adress;
         }
