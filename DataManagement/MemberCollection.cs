@@ -70,5 +70,48 @@
             message = "Failed to find a match";
             return null;
         }
+        public Member GetMember(string name, out string message, out int ind)
+        {
+            if (index == 0)
+            {
+                message = "No Members have yet been registered";
+                ind = -1;
+                return null;
+            }
+            string[] fullName = name.Split(' ');
+            if (fullName.Length == 1)
+            {
+                for (int i = 0; i < index; i++)
+                {
+                    if (registeredMembers[i].userName == name)
+                    {
+                        message = "Success";
+                        ind = i;
+                        return registeredMembers[i];
+                    }
+                }
+            }
+            else if (fullName.Length > 2)
+            {
+                message = "Name invalid format";
+                ind = -1;
+                return null;
+            }
+            else
+            {
+                for (int i = 0; i < index; i++)
+                {
+                    if (registeredMembers[i].userName == (fullName[1] + fullName[0]))
+                    {
+                        message = "Success";
+                        ind = i;
+                        return registeredMembers[i];
+                    }
+                }
+            }
+            message = "Failed to find a match";
+            ind = -1;
+            return null;
+        }
     }
 }

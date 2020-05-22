@@ -8,10 +8,24 @@ using DataManagement;
 
 namespace DVDSoftConpanion
 {
+    public class activeMember
+    {
+        int memberindex;
+        public int Value { get { return memberindex; } }
+        public activeMember(int index)
+        {
+            this.memberindex = index;
+        }
+        public void Update(int index)
+        {
+            this.memberindex = index;
+        }
+    }
     class Program
     {
             public static MemberCollection members = new MemberCollection();
             public static MovieCollection movieCollection = new MovieCollection();
+            public static activeMember CurrentMember = new activeMember(-1);
         #region Circles
         public struct circle
         {
@@ -184,7 +198,6 @@ namespace DVDSoftConpanion
         static void Main(string[] args)
         {
             Graphics g = new Graphics(140, 60);
-
             int stateTransitioner;
             bool keepLooping = true;
             Exception errorHolder = new Exception("Unknown");
@@ -221,6 +234,9 @@ namespace DVDSoftConpanion
                         break;
                     case 8:
                         stateTransitioner = LookupPhoneMenuLoop(g);
+                        break;
+                    case 9:
+                        stateTransitioner = ClientMenuLoop(g);
                         break;
                     default:
                         ErrorPageLoop(g, errorHolder);
@@ -277,7 +293,8 @@ namespace DVDSoftConpanion
         }
         static int ClientLoginLoop(Graphics g)
         {
-            return 1;
+            ClientLogin mm = new ClientLogin(g);
+            return GenericMenu(g, mm);
         }
         static int StaffMenuLoop(Graphics g)
         {
@@ -286,7 +303,8 @@ namespace DVDSoftConpanion
         }
         static int ClientMenuLoop(Graphics g)
         {
-            return -1;
+            Clientmenu mm = new Clientmenu(g);
+            return GenericMenu(g, mm);
         }
         static int AddDVDMenuLoop(Graphics g)
         {
