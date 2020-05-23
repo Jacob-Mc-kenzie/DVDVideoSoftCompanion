@@ -2,7 +2,7 @@
 {
     public class MemberCollection
     {
-        private Member[] registeredMembers;
+        public Member[] registeredMembers;
         int index;
 
         public MemberCollection()

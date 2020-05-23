@@ -41,6 +41,7 @@ namespace DVDSoftConpanion
             {
                 case ConsoleKey.Escape:
                     status = -1;
+                    Program.CurrentMember.Update(-1);
                     break;
                 case ConsoleKey.D1:
                     status = 10;
@@ -54,8 +55,12 @@ namespace DVDSoftConpanion
                 case ConsoleKey.D4:
                     status = 13;
                     break;
+                case ConsoleKey.D5:
+                    status = 14;
+                    break;
                 case ConsoleKey.D0:
                     status = -1;
+                    Program.CurrentMember.Update(-1);
                     break;
                 default:
                     break;

@@ -44,6 +44,7 @@ namespace DVDSoftConpanion
                     status = 2;
                     break;
                 case ConsoleKey.D0:
+                case ConsoleKey.Escape:
                     status = 3;
                     break;
                 default:

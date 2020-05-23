@@ -4,6 +4,9 @@ using System.Text;
 
 namespace CompactGraphics
 {
+    /// <summary>
+    /// A simple structure to store the bounds of a rectangle;
+    /// </summary>
     public struct Rect 
     {
         public int x1, x2, y1, y2;
@@ -15,6 +18,10 @@ namespace CompactGraphics
             this.y2 = y2;
         }
     }
+    /// <summary>
+    /// Originally intended to be a base class inherited by Menu.cs for overarching gui design, but As I didn't need anything other than menus
+    /// was never implemented.
+    /// </summary>
     class CompactGui
     {
     }

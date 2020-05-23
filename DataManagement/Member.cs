@@ -35,7 +35,7 @@
         private string adress;
         private string phonenumber;
         public string userName { get { return surName + firstNmae; } }
-        private MovieCollection borrowed;
+        public MovieCollection borrowed;
 
         public Member(string firstNmae, string surName, string phoneNumber, string password, string adress)
         {
@@ -63,7 +63,6 @@
         public void Borrow(Movie movie)
         {
             borrowed.AddDVD(movie);
-            movie.Borrow();
         }
 
     }

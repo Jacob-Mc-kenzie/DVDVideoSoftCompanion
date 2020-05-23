@@ -2,12 +2,19 @@
 using System.Collections.Generic;
 namespace CompactGraphics
 {
+    /// <summary>
+    /// A simple Widget based textbox, read only, acts like a WinForms Label kind of.
+    /// </summary>
     public class Textbox : Widget
     {
         List<string> lines;
         private System.ConsoleColor flashColor;
         private System.Timers.Timer eventDelay;
-
+        /// <summary>
+        /// Create a new 
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="r"></param>
         public Textbox(string text, Rect r)
         {
             eventDelay = new System.Timers.Timer(200);
@@ -17,7 +24,10 @@ namespace CompactGraphics
             forColor = ConsoleColor.White;
             this.Pin = DrawPoint.TopLeft;
         }
-
+        public Textbox(string text, Rect r, ConsoleColor forcolor) : this(text, r)
+        {
+            this.forColor = forcolor;
+        }
         public Textbox(string text,ConsoleColor forcolor, Rect r, DrawPoint p) :this(text,r)
         {
             this.forColor = forcolor;

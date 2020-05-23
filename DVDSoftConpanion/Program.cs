@@ -201,6 +201,17 @@ namespace DVDSoftConpanion
             int stateTransitioner;
             bool keepLooping = true;
             Exception errorHolder = new Exception("Unknown");
+            string t;
+            members.RegisterMember(new Member("John", "Smith", "040220912", "1111", "23 applebe lane"), out t);
+            members.RegisterMember(new Member("James", "Smith", "040220912", "1234", "23 applebe lane"), out t);
+            members.RegisterMember(new Member("Johnny", "Craig", "040220912", "9999", "23 applebe lane"), out t);
+            movieCollection.AddDVD(new Movie("Jonny Bravo vol 1", new string[] { "Johnny Bravo"}, "Alfred Hitchcock", new int[] { 10, 30, 45 }, MovieGenre.Action, MovieClass.ParentalGuidance, 99));
+            movieCollection.AddDVD(new Movie("Jonny Bravo vol 2", new string[] { "Johnny Bravo"}, "Alfred Hitchcock", new int[] { 10, 50, 19 }, MovieGenre.Action, MovieClass.ParentalGuidance, 23));
+            movieCollection.AddDVD(new Movie("Jonny Bravo vol 3", new string[] { "Johnny Bravo"}, "Alfred Hitchcock", new int[] { 10, 18, 25 }, MovieGenre.Action, MovieClass.ParentalGuidance, 9));
+            movieCollection.AddDVD(new Movie("Jonny Bravo vol 4", new string[] { "Johnny Bravo"}, "Alfred Hitchcock", new int[] { 10, 23, 43 }, MovieGenre.Action, MovieClass.ParentalGuidance, 01));
+            movieCollection.AddDVD(new Movie("The Muppets Take Manhattan", new string[] { "Kirmet"}, "Steven Speilberg", new int[] { 99, 00, 32 }, MovieGenre.Family, MovieClass.Genral, 236));
+            movieCollection.AddDVD(new Movie("Jonny Bravo: The Movie", new string[] { "Johnny Bravo"}, "John Smith", new int[] { 90, 03, 01 }, MovieGenre.Action, MovieClass.MatureAcc, 999));
+
             preMenuInstructionsLoop(g);
             g.FrameCap = 200;
             stateTransitioner = MainMenuLoop(g);
@@ -248,6 +259,9 @@ namespace DVDSoftConpanion
                         stateTransitioner = ReturnDVDMenuLoop(g);
                         break;
                     case 13:
+                        stateTransitioner = ListBorrowedMenuLoop(g);
+                        break;
+                    case 14:
                         stateTransitioner = ListTopTenMenuLoop(g);
                         break;
                     default:
@@ -340,23 +354,28 @@ namespace DVDSoftConpanion
         }
         static int DisplayAllMenuLoop(Graphics g)
         {
-            return -1;
+            DisplayMoviesMenu mm = new DisplayMoviesMenu(g);
+            return GenericMenu(g, mm);
         }
         static int BorrowDVDMenuLoop(Graphics g)
         {
-            return -1;
+            BorrowDVDMenu mm = new BorrowDVDMenu(g);
+            return GenericMenu(g, mm);
         }
         static int ReturnDVDMenuLoop(Graphics g)
         {
-            return -1;
+            ReturnDVDMenu mm = new ReturnDVDMenu(g);
+            return GenericMenu(g, mm);
         }
         static int ListBorrowedMenuLoop(Graphics g)
         {
-            return -1;
+            BorrowedDVDMenu mm = new BorrowedDVDMenu(g);
+            return GenericMenu(g, mm);
         }
         static int ListTopTenMenuLoop(Graphics g)
         {
-            return -1;
+            DisplayTopTenMenu mm = new DisplayTopTenMenu(g);
+            return GenericMenu(g, mm);
         }
         static int ErrorPageLoop(Graphics g, Exception e)
         {

@@ -1,10 +1,18 @@
 ﻿using System;
 namespace CompactGraphics
 {
+    /// <summary>
+    /// A simple Rectangle with a border widget.
+    /// </summary>
     public class Frame : Widget
     {
         char borderchar;
         ConsoleColor backcolor;
+        /// <summary>
+        /// Creates a New simple frame.
+        /// </summary>
+        /// <param name="c">the border character</param>
+        /// <param name="r">the bounding box to draw to</param>
         public Frame(char c, Rect r)
         {
             this.borderchar = c;
@@ -14,6 +22,14 @@ namespace CompactGraphics
             Pin = DrawPoint.TopLeft;
             this.Bounds = r;
         }
+        /// <summary>
+        /// Creates a New simple Frame
+        /// </summary>
+        /// <param name="c">The border character</param>
+        /// <param name="forcolor">The color of the border</param>
+        /// <param name="backcolor">The color of the background</param>
+        /// <param name="r">The bounding box to draw to</param>
+        /// <param name="p">The Relative pin direction</param>
         public Frame(char c,ConsoleColor forcolor, ConsoleColor backcolor, Rect r, DrawPoint p) :this(c,r)
         {
             this.forColor = forcolor;
@@ -51,8 +67,11 @@ namespace CompactGraphics
         public override void Draw(Graphics g, ConsoleKeyInfo keyInfo)
         {
             Draw(g);
-            //ToDo
         }
+        /// <summary>
+        /// Sets the forground color of the frame.
+        /// </summary>
+        /// <param name="color">The color to set it too</param>
         public override void SetColor(ConsoleColor color)
         {
             this.forColor = color;

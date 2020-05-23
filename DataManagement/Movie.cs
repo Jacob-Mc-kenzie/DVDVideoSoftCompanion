@@ -56,7 +56,7 @@ namespace DataManagement
             }
             else
             {
-                throw new IndexOutOfRangeException("There are none of this movie avalible for borrowing.");
+                return null;
             }
         }
         public void Return()

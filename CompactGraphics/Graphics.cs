@@ -45,19 +45,24 @@ namespace CompactGraphics
     }
     /// <summary>
     /// A compacted console visual libary of mine with GUI centered features.
-    /// draws insperation from from https://stackoverflow.com/questions/19568127/hide-scrollbars-in-console-without-flickering 
     /// </summary>
     public class Graphics
     {
         /// 
-        /// To add, carosell like barrier X for stratup, bound text box, text entry, lists, radio buttons, password entry.
+        /// To add, carosell like barrier X for stratup, lists, radio buttons, password entry.
         /// 
         ///
-        private int framedelay = 3;
-        private int maxQueueLength;
+        private int framedelay = 3; // the delay between buffered frames being drawn.
+        private int maxQueueLength; // The maximum lenght of the buffer.
         private TFrame currentFrame;
         private Queue<TFrame> frameQueue;
+        /// <summary>
+        /// The width of the virtual screen.
+        /// </summary>
         public int width { get; private set; }
+        /// <summary>
+        /// The height of the virtual screen.
+        /// </summary>
         public int height { get; private set; }
         private bool keepgoing = true;
         private int frame_Counter = 0;
@@ -93,7 +98,9 @@ namespace CompactGraphics
             set { }
         }
         private int last_frame_count = 0;
-
+        /// <summary>
+        /// Gets or sets the Maximum framerate. (Experimental)
+        /// </summary>
         public int FrameCap
         {
             get { return 1000 / (framedelay + 1); }
@@ -156,12 +163,13 @@ namespace CompactGraphics
         }
         #endregion
         /// <summary>
-        /// Initilises the graphics object.
+        /// Initilises the Virtual screen.
         /// </summary>
         /// <param name="w">width of the screen</param>
         /// <param name="h">height of the screen</param>
         public Graphics(int w, int h)
         {
+            // Initilisation=================================
             Console.SetWindowSize(w, h);
             Console.CursorVisible = false;
             currentFrame = new TFrame(w, h);
@@ -173,7 +181,7 @@ namespace CompactGraphics
             height = h;
             width = w;
             maxQueueLength = 20;
-
+            //thread creation================================
             ThreadStart fpsth = new ThreadStart(updateFps);
             updateFpsThread = new Thread(fpsth);
             updateFpsThread.IsBackground = true;
@@ -184,12 +192,19 @@ namespace CompactGraphics
             updateThread.IsBackground = true;
             updateThread.Start();
         }
-
+        /// <summary>
+        /// Initilises the virtual screen.
+        /// </summary>
+        /// <param name="w">The desired width</param>
+        /// <param name="h">The desired height</param>
+        /// <param name="queueLength">The maximum number of frames to buffer</param>
         public Graphics(int w, int h, int queueLength) :this(w,h)
         {
             maxQueueLength = queueLength;
         }
-
+        /// <summary>
+        /// Background task, updates the FPS
+        /// </summary>
         private void updateFps()
         {
             while (keepgoing)
@@ -201,14 +216,15 @@ namespace CompactGraphics
         }
 
         /// <summary>
-        /// Updates the console window by comparing the last frame to the current one,
-        /// if they differ modify those bits of the screen only.
+        /// Updates the screen by writing to the standard output.
         /// </summary>
+        /// <param name="screen">The frame to draw</param>
         private void update(TFrame screen)
         {
             if (!f.IsInvalid)
             {
                 int y, x;
+                //generate the buffer
                 for (int i = 0; i < buf.Length; ++i)
                 {
                     y = (int)i / width;
@@ -216,6 +232,7 @@ namespace CompactGraphics
                     buf[i].Attributes = (short)((int)screen.forground[y][x] | (((int)screen.background[y][x]) << 4));
                     buf[i].Char.UnicodeChar = screen.image[y][x];
                 }
+                //push it.
                 bool b = WriteConsoleOutput(this.f, buf,
                           new Coord() { X = (short)width, Y = (short)height },
                           new Coord() { X = 0, Y = 0 },
@@ -257,13 +274,6 @@ namespace CompactGraphics
         /// </summary>
         public void pushFrame()
         {
-            //while(frameQueue.Count > maxQueueLength)
-            //{
-            //    if(frameQueue.Count < maxQueueLength)
-            //    {
-            //        break;
-            //    }
-            //}
             if(frameQueue.Count < maxQueueLength)
             {
                 frameQueue.Enqueue(currentFrame);
@@ -278,6 +288,8 @@ namespace CompactGraphics
         public void quit()
         {
             keepgoing = false;
+            updateFpsThread.Abort();
+            updateThread.Abort();
         }
 
 
@@ -337,54 +349,8 @@ namespace CompactGraphics
             }
         }
 
-        /// <summary>
-        /// Add a line with given ange and magnitiude to the frame.
-        /// </summary>
-        /// <param name="c">the character to draw</param>
-        /// <param name="color">the color to draw the characters</param>
-        /// <param name="x_init">the intial x coordinate to draw from</param>
-        /// <param name="y_init">the initial y cooradinate to draw from</param>
-        /// <param name="angle">the ange counter-clockwise from east to draw at</param>
-        /// <param name="magnitude">the distance to draw the line</param>
-        public void DrawLine(char c, ConsoleColor color, int x_init, int y_init, double angle, int magnitude)
-        {
-            Draw(c,color, x_init, y_init);
-            int y_final, x_final;
-            for (int i = 1; i <= magnitude; i++)
-            {
-                x_final = (int)(i * Math.Cos(angle * (Math.PI / 180.0))) + x_init;
-                y_final = (int)(i * Math.Sin(angle * (Math.PI / 180.0))) + y_init;
-                Draw(c,color, x_final, y_final);
-            }
-        }
 
-        /// <summary>
-        /// Add a line between two given points to the screen.
-        /// </summary>
-        /// <param name="c">the character to draw</param>
-        /// <param name="color">the color to draw the characters</param>
-        /// <param name="x_init">the intial x coordinate to draw from</param>
-        /// <param name="y_init">the initial y cooradinate to draw from</param>
-        /// <param name="x_final">the final x coordinate to draw to</param>
-        /// <param name="y_final">the final y coordinate to draw to</param>
-        public void DrawLine(char c, ConsoleColor color, int x_init, int y_init, int x_final, int y_final)
-        {
-            int x = x_final - x_init;
-            int y = y_final - y_init;
-            int magnitude = (int)Math.Sqrt(((Math.Pow(x, 2)) + (Math.Pow(y, 2))));
-            double angle = Math.Atan((y / x));
-
-            Draw(c,color, x_init, y_init);
-            int y_fin, x_fin;
-            for (int i = 1; i <= magnitude; i++)
-            {
-                x_fin = (int)(i * Math.Cos(angle * (Math.PI / 180.0))) + x_init;
-                y_fin = (int)(i * Math.Sin(angle * (Math.PI / 180.0))) + y_init;
-                Draw(c,color, x_fin, y_fin);
-            }
-        }
-
-        #region polygon rotation from https://www.experts-exchange.com/questions/23316788/Rotate-a-2D-polygon-in-C.html
+        #region polygon rotation from https://www.experts-exchange.com/questions/23316788/Rotate-a-2D-polygon-in-C.html (unused)
         public struct Point
         {
             public int X, Y;

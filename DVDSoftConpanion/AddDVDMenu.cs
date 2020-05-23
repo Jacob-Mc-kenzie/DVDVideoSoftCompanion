@@ -41,7 +41,7 @@ namespace DVDSoftConpanion
             baseCursorBounds = cursor.Bounds;
             onPage.Add(title);
             Lt.y1++;
-            onPage.Add(new Textbox("Starring (commar seperated)", Lt));
+            onPage.Add(new Textbox("Starring", Lt));
             Lt.y1++;
             starring = new TextEntry(Lt.x1 + 1, Lt.y1, 25);
             onPage.Add(starring);
