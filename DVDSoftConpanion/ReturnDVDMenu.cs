@@ -8,8 +8,13 @@ namespace DVDSoftConpanion
 {
     class ReturnDVDMenu : Menu
     {
+        //keep track of the user input, and error message box
         private TextEntry Title;
         private Textbox response;
+        /// <summary>
+        /// creates a Return DVD menu
+        /// </summary>
+        /// <param name="g">the screen to draw to</param>
         public ReturnDVDMenu(Graphics g)
         {
             onPage = new List<Widget>();
@@ -24,7 +29,7 @@ namespace DVDSoftConpanion
             Rect Lt = r.OffsetPin(Widget.DrawPoint.Center);
             Lt.x1++;
             Lt.y1 += 2;
-            onPage.Add(new Textbox("DVD title", Lt));//limitation wont work with middle names or people with more than two registerd names.
+            onPage.Add(new Textbox("DVD title", Lt));
             Lt.y1++;
             Title = new TextEntry(Lt.x1 + 1, Lt.y1, 20);
             onPage.Add(Title);
@@ -37,6 +42,10 @@ namespace DVDSoftConpanion
             Lt.y1++;
             onPage.Add(new Textbox("ESC) Back", ConsoleColor.Gray, Lt, Widget.DrawPoint.TopLeft));
         }
+        /// <summary>
+        /// Step the frame and evaluate input.
+        /// </summary>
+        /// <param name="keyinfo">The input</param>
         public override void StepFrame(ConsoleKeyInfo keyinfo)
         {
             base.StepFrame();
@@ -62,6 +71,10 @@ namespace DVDSoftConpanion
                     break;
             }
         }
+        /// <summary>
+        /// Validate The given input.
+        /// </summary>
+        /// <returns>The status of the validation</returns>
         private int ValidateInput()
         {
             if (Regex.IsMatch(Title.Text, @"[A-Za-z0-9 \.]+"))

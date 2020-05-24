@@ -5,8 +5,16 @@ using DataManagement;
 
 namespace DVDSoftConpanion
 {
+    /// <summary>
+    /// This and the other menus without user input are just 
+    /// some static widgets that check to navigate to their relative menus.
+    /// </summary>
     class Clientmenu : Menu
     {
+        /// <summary>
+        /// Creates a Clent Menu
+        /// </summary>
+        /// <param name="g">The screen to draw to</param>
         public Clientmenu(Graphics g)
         {
             onPage = new List<Widget>();
@@ -33,7 +41,10 @@ namespace DVDSoftConpanion
             Lt.y1 += 1;
             onPage.Add(new Textbox("0) Return", Lt));
         }
-
+        /// <summary>
+        /// Navigaes if given the apropriate number key.
+        /// </summary>
+        /// <param name="keyinfo">the user input</param>
         public override void StepFrame(ConsoleKeyInfo keyinfo)
         {
             base.StepFrame(keyinfo);

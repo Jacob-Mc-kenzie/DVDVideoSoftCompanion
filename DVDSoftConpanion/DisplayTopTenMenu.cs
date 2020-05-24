@@ -9,6 +9,10 @@ namespace DVDSoftConpanion
     {
         private int displayStyle;
         private Rect Start;
+        /// <summary>
+        /// Displays The top ten movies.
+        /// </summary>
+        /// <param name="g">The screen to draw to</param>
         public DisplayTopTenMenu(Graphics g)
         {
             onPage = new List<Widget>();
@@ -29,7 +33,9 @@ namespace DVDSoftConpanion
             DrawMovies();
         }
 
-
+        /// <summary>
+        /// Generates the widget list for drawing the table of movies.
+        /// </summary>
         private void DrawMovies()
         {
             //TODO: Dynamicly place the movies to the text can wrap
@@ -38,6 +44,7 @@ namespace DVDSoftConpanion
             List<Textbox> displayed = new List<Textbox>();
             if (displayStyle == 1)
             {
+                //generate the headders
                 L.x1++;
                 displayed.Add(new Textbox("Title", L, ConsoleColor.Yellow));
                 L.x1 += 32;
@@ -56,6 +63,7 @@ namespace DVDSoftConpanion
                 displayed.Add(new Textbox("Popularity", L, ConsoleColor.Yellow));
                 L.x1 += 11;
                 L.x1 -= 131;
+                //place the movies
                 foreach (Movie movie in Program.movieCollection.TopTen())
                 {
                     L.y1++;
@@ -80,18 +88,18 @@ namespace DVDSoftConpanion
                     displayed.Add(new Textbox(movie.TimesBorrowed.ToString(), L));
                     L.x1 += 11;
                     L.x1 -= 131;
-
                 }
-
-
-
             }
             onPage.InsertRange(3, displayed);
             L.y1 = L.y2 + 1;
             L.y2 = L.y2 + 3;
+            //remember to pop the anvigation at the bottom, unfortunatly more than 48 movies causes them to underflow.
             onPage.Add(new Textbox("ESC) Return", L));
         }
-
+        /// <summary>
+        /// Handle the escape key
+        /// </summary>
+        /// <param name="keyinfo">Key</param>
         public override void StepFrame(ConsoleKeyInfo keyinfo)
         {
             base.StepFrame();

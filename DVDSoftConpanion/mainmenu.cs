@@ -7,15 +7,23 @@ using CompactGraphics;
 
 namespace DVDSoftConpanion
 {
+    /// <summary>
+    /// This and the other menus without user input are just 
+    /// some static widgets that check to navigate to their relative menus.
+    /// </summary>
     class Mainmenu : Menu
     {
+        /// <summary>
+        /// Creates the main menu
+        /// </summary>
+        /// <param name="g"></param>
         public Mainmenu(Graphics g)
         {
             onPage = new List<Widget>();
             this.g = g;
             status = 0;
             Rect r = new Rect(g.width / 2, (g.width / 2) + 20, g.height / 2, g.height / 2 + 15);
-            Rect rect = r.OffsetPin(Widget.DrawPoint.Center);//new Rect(r.x1, r.x2 + 10, r.y1, r.y2).OffsetPin(Widget.DrawPoint.Center);
+            Rect rect = r.OffsetPin(Widget.DrawPoint.Center);
             onPage.Add(new Frame('=', ConsoleColor.Yellow, ConsoleColor.Black, r, Widget.DrawPoint.Center));
             rect.y1 = rect.y1 -2;
             rect.y2 = rect.y1+2;
@@ -31,7 +39,10 @@ namespace DVDSoftConpanion
             onPage.Add(new Textbox("0) Exit", Lt));
         }
 
-
+        /// <summary>
+        /// Navigaes if given the apropriate number key.
+        /// </summary>
+        /// <param name="keyinfo">the user input</param>
         public override void StepFrame(ConsoleKeyInfo keyinfo) 
         {
             base.StepFrame(keyinfo);

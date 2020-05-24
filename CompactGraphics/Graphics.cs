@@ -180,7 +180,7 @@ namespace CompactGraphics
 
             height = h;
             width = w;
-            maxQueueLength = 20;
+            maxQueueLength = 3;
             //thread creation================================
             ThreadStart fpsth = new ThreadStart(updateFps);
             updateFpsThread = new Thread(fpsth);

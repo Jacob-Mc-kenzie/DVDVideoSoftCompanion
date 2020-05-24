@@ -1,5 +1,8 @@
 ﻿namespace CompactGraphics
 {
+    /// <summary>
+    /// A simnple Widget based single line text entry feild.
+    /// </summary>
     public class TextEntry : Widget
     {
         private string text;
@@ -21,6 +24,9 @@
             this.Bounds = new Rect(x, x + maxlenght, y, y + 1);
             this.forColor = System.ConsoleColor.White;
         }
+
+        /// <param name="forground">The color of the text</param>
+        /// <param name="placeholder">The text to start with</param>
         public TextEntry(int x, int y, int maxlenght, System.ConsoleColor forground, string placeholder) : this(x,y,maxlenght)
         {
             this.forColor = forground;

@@ -6,10 +6,14 @@ namespace DVDSoftConpanion
 {
     class DisplayMoviesMenu : Menu
     {
+        //Keep track of whats inportant.
         private Movie[] movies;
         private int displayStyle;
-        private Textbox response;
         private Rect Start;
+        /// <summary>
+        /// Dispaly all the rigistered movies.
+        /// </summary>
+        /// <param name="g">The screen to draw to</param>
         public DisplayMoviesMenu(Graphics g)
         {
             onPage = new List<Widget>();
@@ -31,7 +35,9 @@ namespace DVDSoftConpanion
             DrawMovies();
         }
 
-
+        /// <summary>
+        /// Generates the widget list for drawing the table of movies.
+        /// </summary>
         private void DrawMovies()
         {
             //TODO: Dynamicly place the movies to the text can wrap
@@ -40,6 +46,7 @@ namespace DVDSoftConpanion
             List<Textbox> displayed = new List<Textbox>();
             if(displayStyle == 1)
             {
+                //generate the headders
                 L.x1++;
                 displayed.Add(new Textbox("Title", L, ConsoleColor.Yellow));
                 L.x1 += 32;
@@ -56,6 +63,7 @@ namespace DVDSoftConpanion
                 displayed.Add(new Textbox("Quantity", L, ConsoleColor.Yellow));
                 L.x1 += 8;
                 L.x1 -= 126;
+                //place the movies
                 foreach (Movie movie in movies)
                 {
                     L.y1++;
@@ -77,19 +85,19 @@ namespace DVDSoftConpanion
                     L.x1 += 20;
                     displayed.Add(new Textbox(movie.Quantity.ToString(), L));
                     L.x1 += 8;
-                    L.x1 -= 126;
-                    
-                }
-
-
-                
+                    L.x1 -= 126;   
+                } 
             }
             onPage.InsertRange(3,displayed);
             L.y1 = L.y2+1;
             L.y2 = L.y2 + 3;
+            //remember to pop the anvigation at the bottom, unfortunatly more than 48 movies causes them to underflow.
             onPage.Add(new Textbox("ESC) Return", L));
         }
-
+        /// <summary>
+        /// Handle the escape key
+        /// </summary>
+        /// <param name="keyinfo">Key</param>
         public override void StepFrame(ConsoleKeyInfo keyinfo)
         {
             base.StepFrame();

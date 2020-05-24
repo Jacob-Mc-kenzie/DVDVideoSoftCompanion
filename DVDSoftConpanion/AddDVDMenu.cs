@@ -7,6 +7,7 @@ namespace DVDSoftConpanion
 {
     class AddDVDMenu : Menu
     {
+        //save the refrence for all the editable feilds.
         private Textbox cursor;
         private TextEntry title;
         private TextEntry starring;
@@ -15,9 +16,14 @@ namespace DVDSoftConpanion
         private TextEntry genre;
         private TextEntry classification;
         private TextEntry quantity;
+        //used for swiching feilds.
         private TextEntry[] textEntries;
         private int tabIndex;
         private Rect baseCursorBounds;
+        /// <summary>
+        /// Initilise the Add DVD Menu
+        /// </summary>
+        /// <param name="g">The screen to draw to.</param>
         public AddDVDMenu(Graphics g)
         {
             onPage = new List<Widget>();
@@ -76,6 +82,10 @@ namespace DVDSoftConpanion
             onPage.Add(new Textbox("ESC) Cancel", ConsoleColor.Gray, Lt, Widget.DrawPoint.TopLeft));
             textEntries = new TextEntry[] { title, starring, director, duration, genre, classification, quantity };
         }
+        /// <summary>
+        /// Draw the frame then move the cursor. and accept input to the correct feild.
+        /// </summary>
+        /// <param name="keyinfo">The input to handle</param>
         public override void StepFrame(ConsoleKeyInfo keyinfo)
         {
             base.StepFrame();
@@ -108,6 +118,10 @@ namespace DVDSoftConpanion
                     break;
             }
         }
+        /// <summary>
+        /// Validate the input the user gave, and give the appropriate response.
+        /// </summary>
+        /// <returns>If the data was validated and film added</returns>
         internal bool ValidateData()
         {
             bool success = true;

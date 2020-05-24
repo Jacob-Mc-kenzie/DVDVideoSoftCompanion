@@ -11,10 +11,10 @@ namespace CompactGraphics
         private System.ConsoleColor flashColor;
         private System.Timers.Timer eventDelay;
         /// <summary>
-        /// Create a new 
+        /// Create a new Textbox.
         /// </summary>
-        /// <param name="text"></param>
-        /// <param name="r"></param>
+        /// <param name="text">The text to contain.</param>
+        /// <param name="r">The bounding box to draw in, used to wrap text</param>
         public Textbox(string text, Rect r)
         {
             eventDelay = new System.Timers.Timer(200);
@@ -24,10 +24,23 @@ namespace CompactGraphics
             forColor = ConsoleColor.White;
             this.Pin = DrawPoint.TopLeft;
         }
+        /// <summary>
+        /// Create a new textbox.
+        /// </summary>
+        /// <param name="text">The text to contain</param>
+        /// <param name="r">The bounds to draw in</param>
+        /// <param name="forcolor">The color of the text</param>
         public Textbox(string text, Rect r, ConsoleColor forcolor) : this(text, r)
         {
             this.forColor = forcolor;
         }
+        /// <summary>
+        /// Create a new TextBox
+        /// </summary>
+        /// <param name="text">The text to contain</param>
+        /// <param name="forcolor">The color of the text</param>
+        /// <param name="r">The Bounds to draw in</param>
+        /// <param name="p">The relaitve location of the given top left corner</param>
         public Textbox(string text,ConsoleColor forcolor, Rect r, DrawPoint p) :this(text,r)
         {
             this.forColor = forcolor;
@@ -65,6 +78,10 @@ namespace CompactGraphics
             }
 
         }
+        /// <summary>
+        /// Sets the text in the Textbox.
+        /// </summary>
+        /// <param name="text"></param>
         public void SetText(string text)
         {
             lines = text.Wrap(Math.Abs(baseBounds.x2 - baseBounds.x1));

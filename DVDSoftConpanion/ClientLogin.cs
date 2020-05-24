@@ -7,10 +7,15 @@ namespace DVDSoftConpanion
 {
     class ClientLogin : Menu
     {
+        //The things to keep track of.
         private int active;
         private Textbox cursorIcon;
         private TextEntry username;
         private TextEntry password;
+        /// <summary>
+        /// Creates a simple login.
+        /// </summary>
+        /// <param name="g">The screen to draw to</param>
         public ClientLogin(Graphics g)
         {
             onPage = new List<Widget>();
@@ -43,7 +48,10 @@ namespace DVDSoftConpanion
             onPage.Add(new Textbox("ESC) Cancel", ConsoleColor.Gray, Lt, Widget.DrawPoint.TopLeft));
 
         }
-
+        /// <summary>
+        /// Handles switching between username and password. also navigation
+        /// </summary>
+        /// <param name="keyinfo">The user input</param>
         public override void StepFrame(ConsoleKeyInfo keyinfo)
         {
             base.StepFrame();
@@ -74,14 +82,20 @@ namespace DVDSoftConpanion
                     break;
             }
         }
+        /// <summary>
+        /// Try to varify the login user.
+        /// </summary>
+        /// <returns></returns>
         public bool Login()
         {
+            //see if they exist
             Member m = Program.members.GetMember(username.Text, out string message, out int index);
             if ( message == "Success" && m.Login(password.Text))
             {
                 Program.CurrentMember.Update(index);
                 return true;
             }
+            //if they can't login for some reason, flash red
             username.Flash(ConsoleColor.Red);
             password.Flash(ConsoleColor.Red);
             return false;

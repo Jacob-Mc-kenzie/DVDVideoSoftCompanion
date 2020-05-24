@@ -1,5 +1,8 @@
 ﻿namespace DataManagement
 {
+    /// <summary>
+    /// Some conversion methods.
+    /// </summary>
     public static class MovieExtention {
         /// <summary>
         /// Returns friendly strings for a movie classification
@@ -22,7 +25,11 @@
                     return new string[] { "Unknown", "NA" };
             }
         }
-
+        /// <summary>
+        /// casts the string Classification name, to the MovieClass enum.
+        /// </summary>
+        /// <param name="m">The string to cast</param>
+        /// <returns>The appropriate MovieClass</returns>
         public static MovieClass FriendlyClassName(this string m)
         {
             switch (m)
@@ -75,7 +82,11 @@
                     return "Unknown";
             }
         }
-
+        /// <summary>
+        /// Casts the string Movie Genre to the MoveGenre type
+        /// </summary>
+        /// <param name="m">the string to cast</param>
+        /// <returns>The appropriate MovieGenre</returns>
         public static MovieGenre FriendlyGenreName(this string m)
         {
             switch (m)

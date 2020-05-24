@@ -55,7 +55,6 @@
     <Compile Include="BorrowedDVDMenu.cs" />
     <Compile Include="ClientLogin.cs" />
     <Compile Include="Clientmenu.cs" />
-    <Compile Include="commons.cs" />
     <Compile Include="DisplayMoviesMenu.cs" />
     <Compile Include="DisplayTopTenMenu.cs" />
     <Compile Include="Mainmenu.cs" />

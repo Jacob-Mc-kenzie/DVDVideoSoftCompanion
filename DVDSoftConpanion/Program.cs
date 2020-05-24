@@ -8,6 +8,9 @@ using DataManagement;
 
 namespace DVDSoftConpanion
 {
+    /// <summary>
+    /// A small class to workaround the static nature of Main.
+    /// </summary>
     public class activeMember
     {
         int memberindex;
@@ -27,6 +30,9 @@ namespace DVDSoftConpanion
             public static MovieCollection movieCollection = new MovieCollection();
             public static activeMember CurrentMember = new activeMember(-1);
         #region Circles
+        /// <summary>
+        /// UUUUUH, just somthing I was playing around with.
+        /// </summary>
         public struct circle
         {
             public double k;
@@ -197,10 +203,13 @@ namespace DVDSoftConpanion
         #endregion
         static void Main(string[] args)
         {
+            //Create a new window.
             Graphics g = new Graphics(140, 60);
             int stateTransitioner;
             bool keepLooping = true;
+            //Holds any errors for the error page.
             Exception errorHolder = new Exception("Unknown");
+            //Testing stuff====================================================================
             string t;
             members.RegisterMember(new Member("John", "Smith", "040220912", "1111", "23 applebe lane"), out t);
             members.RegisterMember(new Member("James", "Smith", "040220912", "1234", "23 applebe lane"), out t);
@@ -212,11 +221,16 @@ namespace DVDSoftConpanion
             movieCollection.AddDVD(new Movie("The Muppets Take Manhattan", new string[] { "Kirmet"}, "Steven Speilberg", new int[] { 99, 00, 32 }, MovieGenre.Family, MovieClass.Genral, 236));
             movieCollection.AddDVD(new Movie("Jonny Bravo: The Movie", new string[] { "Johnny Bravo"}, "John Smith", new int[] { 90, 03, 01 }, MovieGenre.Action, MovieClass.MatureAcc, 999));
 
+            //=================================================================================
+            //warn the user about the console formatting.
             preMenuInstructionsLoop(g);
+            //set the frame cap, increases snap, but may introduce minor stutter
             g.FrameCap = 200;
+            //Go to the main menu
             stateTransitioner = MainMenuLoop(g);
             while (keepLooping)
             {
+                //every time a menu returns, it brings an int saying where to go next.
                 switch (stateTransitioner)
                 {
                     case -1:
@@ -275,6 +289,10 @@ namespace DVDSoftConpanion
             g.quit();
 
         }
+        /// <summary>
+        /// Displays a simple warning and some fancy circles.
+        /// </summary>
+        /// <param name="g">The window to draw to</param>
         static void preMenuInstructionsLoop(Graphics g)
         {
             string message = "This application uses advanced console formatting, please don't re-sise the window";
@@ -284,6 +302,7 @@ namespace DVDSoftConpanion
             int x = (g.width / 2);
             int y = (g.height / 2)-1;
             circle[] circles = GetCircles();
+            //set the framerate lower, it seems to help with animations
             g.FrameCap = 40;
             while (true)
             {
@@ -307,6 +326,7 @@ namespace DVDSoftConpanion
             
 
         }
+        #region Wrapper functions that initilise their menus and hand off loop controls
         static int MainMenuLoop(Graphics g)
         {
             Mainmenu mm = new Mainmenu(g);
@@ -381,38 +401,53 @@ namespace DVDSoftConpanion
         {
             return -1;
         }
+        #endregion
+
+        /// <summary>
+        /// A generic menu that deels with the event loop
+        /// </summary>
+        /// <param name="g">The screen to draw to</param>
+        /// <param name="M">The menu to draw</param>
+        /// <returns>The place to go next</returns>
         static int GenericMenu(Graphics g, Menu M)
         {
+            //while we aren't navigating
             while(M.Status == 0)
             {
+                //draw the debug readout
                 g.Draw($"Fps: {g.Fps}", ConsoleColor.White, 0, 0);
-                g.Draw($"queuelenght: {g.QueueLength}", ConsoleColor.White, 0, 2);
-                g.Draw($"frameTime: {g.FrameTime}", ConsoleColor.White, 0, 1);
+                g.Draw($"queuelenght: {g.QueueLength} f", ConsoleColor.White, 0, 2);
+                g.Draw($"frameTime: {g.FrameTime} ms", ConsoleColor.White, 0, 1);
+                //if there is input, handle it.
                 if (Console.KeyAvailable)
                 {
                     ConsoleKeyInfo info = Console.ReadKey(false);
                     switch (info.Key)
                     {
+                        //super seacret menu jumper.
                         case ConsoleKey.End:
-                            ConsoleKeyInfo key = Console.ReadKey(false);
-                            return int.Parse(key.KeyChar.ToString());
+                            string key = Console.ReadLine();
+                            return int.Parse(key);
+                        //filter out some unwanted keys.
                         case ConsoleKey.LeftArrow:
                         case ConsoleKey.RightArrow:
                         case ConsoleKey.LeftWindows:
                         case ConsoleKey.RightWindows:
                             break;
+                            //but by default give the key to the menu
                         default:
                             M.StepFrame(info);
                             break;
-
                     }
                 }
                 else
                 {
                     M.StepFrame();
                 }
+                //remember to push the frame.
                 g.pushFrame();
             }
+            //return the navigation when done.
             return M.Status;
         }
     }

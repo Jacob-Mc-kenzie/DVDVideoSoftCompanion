@@ -8,6 +8,7 @@ namespace DVDSoftConpanion
 {
     class RegisterClientMenu : Menu
     {
+        //save the refrence for all the editable feilds.
         private Textbox cursor;
         private TextEntry FistName;
         private TextEntry SurName;
@@ -15,10 +16,14 @@ namespace DVDSoftConpanion
         private TextEntry Phone;
         private TextEntry Password;
         private Textbox response;
-
+        //used for swiching feilds.
         private TextEntry[] textEntries;
         private int tabIndex;
         private Rect baseCursorBounds;
+        /// <summary>
+        /// Initilise the Client registration menu.
+        /// </summary>
+        /// <param name="g">The screen to draw to.</param>
         public RegisterClientMenu(Graphics g)
         {
             onPage = new List<Widget>();
@@ -70,7 +75,10 @@ namespace DVDSoftConpanion
             onPage.Add(new Textbox("ESC) Cancel", ConsoleColor.Gray, Lt, Widget.DrawPoint.TopLeft));
             textEntries = new TextEntry[] { FistName, SurName, Address, Phone, Password};
         }
-
+        /// <summary>
+        /// Draw the frame then move the cursor. and accept input to the correct feild.
+        /// </summary>
+        /// <param name="keyinfo">The input to handle</param>
         public override void StepFrame(ConsoleKeyInfo keyinfo)
         {
             base.StepFrame();
@@ -106,7 +114,10 @@ namespace DVDSoftConpanion
                     break;
             }
         }
-
+        /// <summary>
+        /// Validate the input the user gave, and give the appropriate response.
+        /// </summary>
+        /// <returns>If the data was validated and film added</returns>
         public int ValidateData()
         {
             if (!Regex.IsMatch(FistName.Text, @"[A-Z][a-z]+"))

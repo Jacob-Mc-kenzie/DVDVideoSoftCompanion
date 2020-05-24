@@ -7,8 +7,13 @@ namespace DVDSoftConpanion
 {
     class PhoneLookupMenu : Menu
     {
+        //keep track of the user input, and error message box
         private TextEntry Name;
         private Textbox response;
+        /// <summary>
+        /// Create a new Phone lookup menu.
+        /// </summary>
+        /// <param name="g">the screen to draw to</param>
         public PhoneLookupMenu(Graphics g)
         {
             onPage = new List<Widget>();
@@ -36,6 +41,10 @@ namespace DVDSoftConpanion
             Lt.y1++;
             onPage.Add(new Textbox("ESC) Return", ConsoleColor.Gray, Lt, Widget.DrawPoint.TopLeft));
         }
+        /// <summary>
+        /// Step the frame and evaluate input.
+        /// </summary>
+        /// <param name="keyinfo">The input</param>
         public override void StepFrame(ConsoleKeyInfo keyinfo)
         {
             base.StepFrame();
@@ -52,6 +61,10 @@ namespace DVDSoftConpanion
                     break;
             }
         }
+        /// <summary>
+        /// Validate The given input.
+        /// </summary>
+        /// <returns>The status of the validation</returns>
         private int ValidateInput()
         {
             if(Regex.IsMatch(Name.Text,@"[A-Za-z 0-9]+"))

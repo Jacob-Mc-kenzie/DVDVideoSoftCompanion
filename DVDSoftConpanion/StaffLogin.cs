@@ -6,10 +6,15 @@ namespace DVDSoftConpanion
 {
     public class StaffLogin : Menu
     {
+        //The things to keep track of.
         private int active;
         private Textbox cursorIcon;
         private TextEntry username;
         private TextEntry password;
+        /// <summary>
+        /// Creates a Staff Login Menu.
+        /// </summary>
+        /// <param name="g">The screen to draw to</param>
         public StaffLogin(Graphics g)
         {
             onPage = new List<Widget>();
@@ -42,7 +47,10 @@ namespace DVDSoftConpanion
             onPage.Add(new Textbox("ESC) Cancel", ConsoleColor.Gray, Lt, Widget.DrawPoint.TopLeft));
 
         }
-
+        /// <summary>
+        /// Handles switching between username and password. also navigation
+        /// </summary>
+        /// <param name="keyinfo">The user input</param>
         public override void StepFrame(ConsoleKeyInfo keyinfo)
         {
             base.StepFrame();
@@ -73,6 +81,10 @@ namespace DVDSoftConpanion
                     break;
             }
         }
+        /// <summary>
+        /// Try to varify the login user.
+        /// </summary>
+        /// <returns></returns>
         public bool Login()
         {
             bool sucess = (username.Text == "staff" && password.Text == "today123");

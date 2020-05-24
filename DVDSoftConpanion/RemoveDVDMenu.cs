@@ -8,8 +8,13 @@ namespace DVDSoftConpanion
 {
     class RemoveDVDMenu : Menu
     {
+        //keep track of the user input, and error message box
         private TextEntry title;
         private Textbox response;
+        /// <summary>
+        /// creates a DVD removal menu.
+        /// </summary>
+        /// <param name="g">the screen to draw to</param>
         public RemoveDVDMenu(Graphics g)
         {
             onPage = new List<Widget>();
@@ -37,7 +42,10 @@ namespace DVDSoftConpanion
             Lt.y1++;
             onPage.Add(new Textbox("ESC) Cancel", ConsoleColor.Gray, Lt, Widget.DrawPoint.TopLeft));
         }
-
+        /// <summary>
+        /// Step the frame and evaluate input.
+        /// </summary>
+        /// <param name="keyinfo">The input</param>
         public override void StepFrame(ConsoleKeyInfo keyinfo)
         {
             base.StepFrame();
@@ -68,6 +76,10 @@ namespace DVDSoftConpanion
                     break;
             }
         }
+        /// <summary>
+        /// Validate The given input.
+        /// </summary>
+        /// <returns>The status of the validation</returns>
         private int ValidateInput()
         {
             if (!Regex.IsMatch(title.Text, @"[A-Za-z0-9 \.]+"))
