@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using CompactGraphics;
 using DataManagement;
@@ -26,9 +27,10 @@ namespace DVDSoftConpanion
     }
     class Program
     {
-            public static MemberCollection members = new MemberCollection();
-            public static MovieCollection movieCollection = new MovieCollection();
-            public static activeMember CurrentMember = new activeMember(-1);
+        public static MemberCollection members = new MemberCollection();
+        public static MovieCollection movieCollection = new MovieCollection();
+        public static activeMember CurrentMember = new activeMember(-1);
+        static WaitHandle waitForLoad = new AutoResetEvent(false);
         #region Circles
         /// <summary>
         /// UUUUUH, just somthing I was playing around with.
@@ -205,25 +207,51 @@ namespace DVDSoftConpanion
         {
             //Create a new window.
             Graphics g = new Graphics(140, 60);
+            Random rng = new Random();
             int stateTransitioner;
             bool keepLooping = true;
+            bool loading = true;
             //Holds any errors for the error page.
             Exception errorHolder = new Exception("Unknown");
-            //Testing stuff====================================================================
-            string t;
-            members.RegisterMember(new Member("John", "Smith", "040220912", "1111", "23 applebe lane"), out t);
-            members.RegisterMember(new Member("James", "Smith", "040220912", "1234", "23 applebe lane"), out t);
-            members.RegisterMember(new Member("Johnny", "Craig", "040220912", "9999", "23 applebe lane"), out t);
-            movieCollection.AddDVD(new Movie("Jonny Bravo vol 1", new string[] { "Johnny Bravo"}, "Alfred Hitchcock", new int[] { 10, 30, 45 }, MovieGenre.Action, MovieClass.ParentalGuidance, 99));
-            movieCollection.AddDVD(new Movie("Jonny Bravo vol 2", new string[] { "Johnny Bravo"}, "Alfred Hitchcock", new int[] { 10, 50, 19 }, MovieGenre.Action, MovieClass.ParentalGuidance, 23));
-            movieCollection.AddDVD(new Movie("Jonny Bravo vol 3", new string[] { "Johnny Bravo"}, "Alfred Hitchcock", new int[] { 10, 18, 25 }, MovieGenre.Action, MovieClass.ParentalGuidance, 9));
-            movieCollection.AddDVD(new Movie("Jonny Bravo vol 4", new string[] { "Johnny Bravo"}, "Alfred Hitchcock", new int[] { 10, 23, 43 }, MovieGenre.Action, MovieClass.ParentalGuidance, 01));
-            movieCollection.AddDVD(new Movie("The Muppets Take Manhattan", new string[] { "Kirmet"}, "Steven Speilberg", new int[] { 99, 00, 32 }, MovieGenre.Family, MovieClass.Genral, 236));
-            movieCollection.AddDVD(new Movie("Jonny Bravo: The Movie", new string[] { "Johnny Bravo"}, "John Smith", new int[] { 90, 03, 01 }, MovieGenre.Action, MovieClass.MatureAcc, 999));
-
+            new Thread(delegate (object stat) {
+                preMenuInstructionsLoop(g,ref loading, stat);
+            }).Start(waitForLoad);
+            
+            //Please Put any Pre-app data generation here (such ass====================================================================
+            //string t;
+            //members.RegisterMember(new Member("John", "Smith", "040220912", "1111", "23 applebe lane"), out t);
+            //members.RegisterMember(new Member("James", "Smith", "040220912", "1234", "23 applebe lane"), out t);
+            //members.RegisterMember(new Member("Johnny", "Craig", "040220912", "9999", "23 applebe lane"), out t);
+            //movieCollection.AddDVD(new Movie("Jonny Bravo vol 1", new string[] { "Johnny Bravo"}, "Alfred Hitchcock", new int[] { 10, 30, 45 }, MovieGenre.Action, MovieClass.ParentalGuidance, 99));
+            //movieCollection.AddDVD(new Movie("Jonny Bravo vol 2", new string[] { "Johnny Bravo"}, "Alfred Hitchcock", new int[] { 10, 50, 19 }, MovieGenre.Action, MovieClass.ParentalGuidance, 23));
+            //movieCollection.AddDVD(new Movie("Jonny Bravo vol 3", new string[] { "Johnny Bravo"}, "Alfred Hitchcock", new int[] { 10, 18, 25 }, MovieGenre.Action, MovieClass.ParentalGuidance, 9));
+            //movieCollection.AddDVD(new Movie("Jonny Bravo vol 4", new string[] { "Johnny Bravo"}, "Alfred Hitchcock", new int[] { 10, 23, 43 }, MovieGenre.Action, MovieClass.ParentalGuidance, 01));
+            //movieCollection.AddDVD(new Movie("The Muppets Take Manhattan", new string[] { "Kirmet"}, "Steven Speilberg", new int[] { 99, 00, 32 }, MovieGenre.Family, MovieClass.Genral, 236));
+            //movieCollection.AddDVD(new Movie("Jonny Bravo: The Movie", new string[] { "Johnny Bravo"}, "John Smith", new int[] { 90, 03, 01 }, MovieGenre.Action, MovieClass.MatureAcc, 999));
+            //for (int i = 0; i < 100; i++)
+            //{
+            //    movieCollection.AddDVD(new Movie($"Jonny Bravo vol {rng.Next(5,999)}", new string[] { "Johnny Bravo" }, "Alfred Hitchcock", new int[] { rng.Next(0,99), rng.Next(0,59), rng.Next(0,59) }, (MovieGenre)rng.Next(0,8), (MovieClass)rng.Next(0,3), rng.Next(0,899)));
+            //}
+            //CurrentMember.Update(1);
+            //for (int i = 0; i < 10000; i++)
+            //{
+            //    int member = rng.Next(0, 2);
+            //    Program.members.registeredMembers[member].Borrow(movieCollection.ListAll()[rng.Next(0, movieCollection.GetLength() - 1)]);
+            //    MovieCollection borr = Program.members.registeredMembers[rng.Next(0, 2)].borrowed;
+            //    int l = borr.GetLength();
+            //    if (l > 0)
+            //    {
+            //        Movie m = borr.ListAll()[rng.Next(0, l - 1)];
+            //        m.Return();
+            //        borr.RemoveMovie(m);
+            //    }
+            //}
+            //end-pre-loading=========================================================================================================
+            loading = false;
+            WaitHandle.WaitAll(new WaitHandle[] { waitForLoad });
             //=================================================================================
             //warn the user about the console formatting.
-            preMenuInstructionsLoop(g);
+            //preMenuInstructionsLoop(g, loading);
             //set the frame cap, increases snap, but may introduce minor stutter
             g.FrameCap = 200;
             //Go to the main menu
@@ -293,8 +321,9 @@ namespace DVDSoftConpanion
         /// Displays a simple warning and some fancy circles.
         /// </summary>
         /// <param name="g">The window to draw to</param>
-        static void preMenuInstructionsLoop(Graphics g)
+        static void preMenuInstructionsLoop(Graphics g, ref bool loading, object state)
         {
+            AutoResetEvent are = (AutoResetEvent)state;
             string message = "This application uses advanced console formatting, please don't re-sise the window";
             string message2 = "Use the TAB RETURN & ESC keys to navigate feilds and menus";
             string message3 = "items denoted with ')' display the interaction key on the left e.g. '1)' requires the '1' key to interact";
@@ -306,6 +335,7 @@ namespace DVDSoftConpanion
             g.FrameCap = 40;
             while (true)
             {
+                message4 = (loading ? "Loading Please Wait..." : "Press the RETRUN key to continue");
                 Draw_circles(circles, g, g.width, g.height);
                 g.Draw(message, ConsoleColor.Yellow, x - (message.Length / 2),y);
                 g.Draw(message2, ConsoleColor.Yellow, x - (message2.Length / 2), y + 1);
@@ -317,8 +347,9 @@ namespace DVDSoftConpanion
                 g.pushFrame();
                 if (Console.KeyAvailable)
                 {
-                    if(Console.ReadKey().Key == ConsoleKey.Enter)
+                    if(Console.ReadKey().Key == ConsoleKey.Enter && loading == false)
                     {
+                        are.Set();
                         break;
                     }
                 }
@@ -421,7 +452,7 @@ namespace DVDSoftConpanion
                 //if there is input, handle it.
                 if (Console.KeyAvailable)
                 {
-                    ConsoleKeyInfo info = Console.ReadKey(false);
+                    ConsoleKeyInfo info = Console.ReadKey(true);
                     switch (info.Key)
                     {
                         //super seacret menu jumper.
@@ -438,6 +469,16 @@ namespace DVDSoftConpanion
                         default:
                             M.StepFrame(info);
                             break;
+                    }
+                    if(M is DisplayMoviesMenu)
+                    {
+                        switch (info.Key)
+                        {
+                            case ConsoleKey.LeftArrow:
+                            case ConsoleKey.RightArrow:
+                                M.StepFrame(info);
+                                break;
+                        }
                     }
                 }
                 else

@@ -65,8 +65,8 @@ namespace CompactGraphics
         /// </summary>
         public int height { get; private set; }
         private bool keepgoing = true;
-        private int frame_Counter = 0;
-        private int fps = 0;
+        private int frame_Counter = 45;
+        private int fps = 45;
         private SafeFileHandle f;
         CharInfo[] buf;
         SmallRect rect;

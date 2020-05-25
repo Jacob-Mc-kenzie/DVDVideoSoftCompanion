@@ -122,22 +122,32 @@ namespace DVDSoftConpanion
         {
             if (!Regex.IsMatch(FistName.Text, @"[A-Z][a-z]+"))
             {
+                response.SetText("Name must begin with a capital letter");
+                response.SetColor(ConsoleColor.Red);
                 return 0;
             }
             if (!Regex.IsMatch(SurName.Text, @"[A-Z][a-z]+"))
             {
+                response.SetText("Name must begin with a capital letter");
+                response.SetColor(ConsoleColor.Red);
                 return 1;
             }
             if(!Regex.IsMatch(Address.Text,@"\A[A-Z]?[0-9]+[A-Z]? \d*[A-Za-z ]+"))
             {
+                response.SetText("Invalid Address");
+                response.SetColor(ConsoleColor.Red);
                 return 2;
             }
             if (!Regex.IsMatch(Phone.Text, @"\+?[0-9]{8,}"))
             {
+                response.SetText("Invalid Phone number");
+                response.SetColor(ConsoleColor.Red);
                 return 3;
             }
             if (!Regex.IsMatch(Password.Text, @"\A[0-9]{4}$"))
             {
+                response.SetText("password must be a four didgit number");
+                response.SetColor(ConsoleColor.Red);
                 return 4;
             }
             Program.members.RegisterMember(new Member(FistName.Text, SurName.Text, Phone.Text, Password.Text, Address.Text), out string message);

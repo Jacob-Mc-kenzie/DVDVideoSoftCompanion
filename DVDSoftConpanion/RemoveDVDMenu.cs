@@ -55,10 +55,13 @@ namespace DVDSoftConpanion
                     status = 4;
                     break;
                 case ConsoleKey.Enter:
-                    response.SetText("Test string");
                     switch (ValidateInput())
                     {
                         case 0:
+                            title.Flash(ConsoleColor.Red);
+                            response.SetText("Unable to find film");
+                            response.SetColor(ConsoleColor.Red);
+                            break;
                         case 1:
                             title.Flash(ConsoleColor.Red);
                             break;

@@ -14,7 +14,7 @@ namespace DataManagement
         /// </summary>
         public MovieCollection()
         {
-            StoredDvd = new DVDTree();
+            StoredDvd = null;
         }
         /// <summary>
         /// Create a new collection of DVDs

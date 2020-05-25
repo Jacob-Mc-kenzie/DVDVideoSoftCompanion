@@ -51,11 +51,11 @@ namespace DVDSoftConpanion
                 displayed.Add(new Textbox("Staring", L, ConsoleColor.Yellow));
                 L.x1 += 15;
                 displayed.Add(new Textbox("Director", L, ConsoleColor.Yellow));
-                L.x1 += 20;
+                L.x1 += 19;
                 displayed.Add(new Textbox("Duration (hh:mm:ss)", L, ConsoleColor.Yellow));
                 L.x1 += 20;
                 displayed.Add(new Textbox("Genre", L, ConsoleColor.Yellow));
-                L.x1 += 8;
+                L.x1 += 9;
                 displayed.Add(new Textbox("Classification", L, ConsoleColor.Yellow));
                 L.x1 += 15;
                 displayed.Add(new Textbox("Quantity", L, ConsoleColor.Yellow));
@@ -76,11 +76,11 @@ namespace DVDSoftConpanion
                     displayed.Add(new Textbox(starring, L));
                     L.x1 += 15;
                     displayed.Add(new Textbox(movie.Director, L));
-                    L.x1 += 20;
+                    L.x1 += 19;
                     displayed.Add(new Textbox($"{movie.Duration[0]}:{movie.Duration[1]}:{movie.Duration[2]}", L));
                     L.x1 += 20;
                     displayed.Add(new Textbox(movie.Genre.FriendlyGenreName(), L));
-                    L.x1 += 8;
+                    L.x1 += 9;
                     displayed.Add(new Textbox(movie.Classification.FriendlyClassName()[1], L));
                     L.x1 += 15;
                     displayed.Add(new Textbox(movie.Quantity.ToString(), L));

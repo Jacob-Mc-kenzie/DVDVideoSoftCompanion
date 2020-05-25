@@ -29,7 +29,7 @@ namespace DVDSoftConpanion
             Lt.x1++;
             Lt.y1 += 2;
             onPage.Add(new Textbox("Username / firstname surname", Lt));//limitation wont work with middle names or people with more than two registerd names.
-            Lt.y1++;
+            Lt.y1+=2;
             Name = new TextEntry(Lt.x1 + 1, Lt.y1, 20);
             onPage.Add(Name);
             onPage.Add(new Textbox("~", ConsoleColor.DarkYellow, Lt, Widget.DrawPoint.TopLeft));

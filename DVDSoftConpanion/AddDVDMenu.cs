@@ -156,7 +156,7 @@ namespace DVDSoftConpanion
                 classification.Flash(ConsoleColor.Red);
                 success = false;
             }
-            if(!int.TryParse(quantity.Text, out int _))
+            if(!int.TryParse(quantity.Text, out int i) || i < 0)
             {
                 quantity.Flash(ConsoleColor.Red);
                 success = false;
