@@ -20,7 +20,7 @@ namespace DVDSoftConpanion
             this.g = g;
             status = 0;
             displayStyle = 1;
-            Rect r = new Rect(g.width / 2, (g.width / 2) + 130, g.height / 2, g.height / 2 + 50);
+            Rect r = new Rect(g.Width / 2, (g.Width / 2) + 130, g.Height / 2, g.Height / 2 + 50);
             Rect rect = r.OffsetPin(Widget.DrawPoint.Center);
             onPage.Add(new Frame('=', ConsoleColor.Yellow, ConsoleColor.Black, r, Widget.DrawPoint.Center));
             rect.y1 = rect.y1 - 1;

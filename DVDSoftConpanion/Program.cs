@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using CompactGraphics;
 using DataManagement;
 
@@ -328,15 +324,15 @@ namespace DVDSoftConpanion
             string message2 = "Use the TAB RETURN & ESC keys to navigate feilds and menus";
             string message3 = "items denoted with ')' display the interaction key on the left e.g. '1)' requires the '1' key to interact";
             string message4 = "Press the RETRUN key to continue";
-            int x = (g.width / 2);
-            int y = (g.height / 2)-1;
+            int x = (g.Width / 2);
+            int y = (g.Height / 2)-1;
             circle[] circles = GetCircles();
             //set the framerate lower, it seems to help with animations
             g.FrameCap = 40;
             while (true)
             {
                 message4 = (loading ? "Loading Please Wait..." : "Press the RETRUN key to continue");
-                Draw_circles(circles, g, g.width, g.height);
+                Draw_circles(circles, g, g.Width, g.Height);
                 g.Draw(message, ConsoleColor.Yellow, x - (message.Length / 2),y);
                 g.Draw(message2, ConsoleColor.Yellow, x - (message2.Length / 2), y + 1);
                 g.Draw(message3, ConsoleColor.Yellow, x - (message3.Length / 2), y + 2);

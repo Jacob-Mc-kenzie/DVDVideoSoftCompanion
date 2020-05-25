@@ -59,11 +59,11 @@ namespace CompactGraphics
         /// <summary>
         /// The width of the virtual screen.
         /// </summary>
-        public int width { get; private set; }
+        public int Width { get; private set; }
         /// <summary>
         /// The height of the virtual screen.
         /// </summary>
-        public int height { get; private set; }
+        public int Height { get; private set; }
         private bool keepgoing = true;
         private int frame_Counter = 45;
         private int fps = 45;
@@ -178,8 +178,8 @@ namespace CompactGraphics
             rect = new SmallRect() { Left = 0, Top = 0, Right = (short)w, Bottom = (short)h };
             this.f = CreateFile("CONOUT$", 0x40000000, 2, IntPtr.Zero, FileMode.Open, 0, IntPtr.Zero);
 
-            height = h;
-            width = w;
+            Height = h;
+            Width = w;
             maxQueueLength = 3;
             //thread creation================================
             ThreadStart fpsth = new ThreadStart(updateFps);
@@ -227,14 +227,14 @@ namespace CompactGraphics
                 //generate the buffer
                 for (int i = 0; i < buf.Length; ++i)
                 {
-                    y = (int)i / width;
-                    x = i % width;
+                    y = (int)i / Width;
+                    x = i % Width;
                     buf[i].Attributes = (short)((int)screen.forground[y][x] | (((int)screen.background[y][x]) << 4));
                     buf[i].Char.UnicodeChar = screen.image[y][x];
                 }
                 //push it.
                 bool b = WriteConsoleOutput(this.f, buf,
-                          new Coord() { X = (short)width, Y = (short)height },
+                          new Coord() { X = (short)Width, Y = (short)Height },
                           new Coord() { X = 0, Y = 0 },
                           ref rect);
                 frame_Counter++;
@@ -277,7 +277,7 @@ namespace CompactGraphics
             if(frameQueue.Count < maxQueueLength)
             {
                 frameQueue.Enqueue(currentFrame);
-                currentFrame = new TFrame(width,height);
+                currentFrame = new TFrame(Width,Height);
             }
             Thread.Sleep(FrameTime);
         }
@@ -302,7 +302,7 @@ namespace CompactGraphics
         /// <param name="y">the y position from the top</param>
         public void Draw(char c, ConsoleColor color, int x, int y)
         {
-            if (x < width && y < height && x >= 0 && y >= 0)
+            if (x < Width && y < Height && x >= 0 && y >= 0)
             {
                 currentFrame.image[y][x] = c;
                 currentFrame.forground[y][x] = color;
@@ -320,11 +320,11 @@ namespace CompactGraphics
         /// <param name="y">the y position from the top</param>
         public void Draw(string st, ConsoleColor color, int x, int y)
         {
-            if (y <= height)
+            if (y <= Height)
             {
                 for (int i = 0; i < st.Length; i++)
                 {
-                    if (x + i <= width && x + i >= 0)
+                    if (x + i <= Width && x + i >= 0)
                     {
                         currentFrame.image[y][x + i] = st[i];
                         currentFrame.forground[y][x + i] = color;
@@ -343,7 +343,7 @@ namespace CompactGraphics
         /// <param name="y">the y position from the top</param>
         public void DrawBackground(ConsoleColor color, int x, int y)
         {
-            if (x <= width && y <= height && x >= 0 && y >= 0)
+            if (x <= Width && y <= Height && x >= 0 && y >= 0)
             {
                 currentFrame.background[y][x] = color;
             }

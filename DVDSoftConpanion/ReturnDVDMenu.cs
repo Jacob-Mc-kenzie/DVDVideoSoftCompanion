@@ -20,7 +20,7 @@ namespace DVDSoftConpanion
             onPage = new List<Widget>();
             this.g = g;
             status = 0;
-            Rect r = new Rect(g.width / 2, (g.width / 2) + 25, g.height / 2, g.height / 2 + 15);
+            Rect r = new Rect(g.Width / 2, (g.Width / 2) + 25, g.Height / 2, g.Height / 2 + 15);
             Rect rect = r.OffsetPin(Widget.DrawPoint.Center);
             onPage.Add(new Frame('=', ConsoleColor.Yellow, ConsoleColor.Black, r, Widget.DrawPoint.Center));
             rect.y1 = rect.y1 - 1;
