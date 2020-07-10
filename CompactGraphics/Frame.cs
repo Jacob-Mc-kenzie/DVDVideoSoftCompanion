@@ -6,8 +6,8 @@ namespace CompactGraphics
     /// </summary>
     public class Frame : Widget
     {
-        char borderchar;
-        ConsoleColor backcolor;
+        protected char borderchar;
+        protected ConsoleColor backcolor;
         /// <summary>
         /// Creates a New simple frame.
         /// </summary>
@@ -53,28 +53,11 @@ namespace CompactGraphics
             }
         }
 
-        public override void ReSize(Rect rect)
-        {
-            this.baseBounds = rect;
-            this.Bounds = rect.OffsetPin(this.Pin);
-        }
-        public override void PinTo(DrawPoint point)
-        {
-            this.Pin = point;
-            this.Bounds = baseBounds.OffsetPin(Pin);
-        }
 
         public override void Draw(Graphics g, ConsoleKeyInfo keyInfo)
         {
             Draw(g);
         }
-        /// <summary>
-        /// Sets the forground color of the frame.
-        /// </summary>
-        /// <param name="color">The color to set it too</param>
-        public override void SetColor(ConsoleColor color)
-        {
-            this.forColor = color;
-        }
+
     }
 }

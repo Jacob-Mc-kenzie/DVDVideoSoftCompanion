@@ -10,7 +10,7 @@ namespace CompactGraphics
     /// <summary>
     /// A datastructure containing the three screen buffers in a given frame.
     /// </summary>
-    internal struct TFrame
+    public struct TFrame
     {
         public char[][] image;
         public ConsoleColor[][] background;
@@ -29,7 +29,7 @@ namespace CompactGraphics
 
                 for (int j = 0; j <= w; j++)
                 {
-                    image[i][j] = ' ';
+                    image[i][j] = '\0';
                     forground[i][j] = ConsoleColor.White;
                     background[i][j] = ConsoleColor.Black;
                 }
@@ -334,6 +334,20 @@ namespace CompactGraphics
 
         }
 
+        internal void Draw(TFrame frame, int x, int y, ConsoleColor alphaKey = ConsoleColor.Black)
+        {
+            for (int i = 0; i < frame.image[0].Length; i++)
+            {
+                for (int j = 0; j < frame.image.Length; j++)
+                {
+                    if (frame.image[j][i] != '\0')
+                        Draw(frame.image[j][i], frame.forground[j][i], x + i, y + j);
+                    if (frame.background[j][i] != alphaKey)
+                        DrawBackground(frame.background[j][i], x + i, y + j);
+                }
+            }
+        }
+
         /// <summary>
         /// change the backgroud color at the specified point.
         /// </summary>
@@ -346,6 +360,27 @@ namespace CompactGraphics
             if (x <= Width && y <= Height && x >= 0 && y >= 0)
             {
                 currentFrame.background[y][x] = color;
+            }
+        }
+
+        public void DrawRectangle(char c, ConsoleColor color, int x1, int x2, int y1, int y2)
+        {
+            for (int i = x1; i <= x2; i++)
+            {
+                for (int j = y1; j <= y2; j++)
+                {
+                    this.Draw(c, color, i, j);
+                }
+            }
+        }
+        public void DrawBGRectangle(ConsoleColor color, int x1, int x2, int y1, int y2)
+        {
+            for (int i = x1; i <= x2; i++)
+            {
+                for (int j = y1; j <= y2; j++)
+                {
+                    this.DrawBackground(color, i, j);
+                }
             }
         }
 

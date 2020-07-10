@@ -101,19 +101,5 @@
             Draw(g);
         }
 
-        public override void ReSize(Rect rect)
-        {
-            this.baseBounds = rect;
-            this.Bounds = rect.OffsetPin(this.Pin);
-        }
-        public override void PinTo(DrawPoint point)
-        {
-            this.Pin = point;
-            this.Bounds = baseBounds.OffsetPin(Pin);
-        }
-        public override void SetColor(System.ConsoleColor color)
-        {
-            this.forColor = color;
-        }
     }
 }

@@ -14,7 +14,7 @@
             switch((int)m)
             {
                 case 0:
-                    return new string[] { "Genral", "G" };
+                    return new string[] { "General", "G" };
                 case 1:
                     return new string[] { "Parental Guidance", "PG" };
                 case 2:
@@ -34,7 +34,7 @@
         {
             switch (m)
             {
-                case "Genral":
+                case "General":
                 case "G":
                     return (MovieClass)0;
                 case "Parental Guidance":

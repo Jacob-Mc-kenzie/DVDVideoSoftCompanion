@@ -202,6 +202,7 @@ namespace DVDSoftConpanion
         static void Main(string[] args)
         {
             //Create a new window.
+            Console.Title = "DVDSoft Companion 2020 V1.0";
             Graphics g = new Graphics(140, 60);
             Random rng = new Random();
             int stateTransitioner;
@@ -212,36 +213,36 @@ namespace DVDSoftConpanion
             new Thread(delegate (object stat) {
                 preMenuInstructionsLoop(g,ref loading, stat);
             }).Start(waitForLoad);
-            
+
             //Please Put any Pre-app data generation here (such ass====================================================================
-            //string t;
-            //members.RegisterMember(new Member("John", "Smith", "040220912", "1111", "23 applebe lane"), out t);
-            //members.RegisterMember(new Member("James", "Smith", "040220912", "1234", "23 applebe lane"), out t);
-            //members.RegisterMember(new Member("Johnny", "Craig", "040220912", "9999", "23 applebe lane"), out t);
-            //movieCollection.AddDVD(new Movie("Jonny Bravo vol 1", new string[] { "Johnny Bravo"}, "Alfred Hitchcock", new int[] { 10, 30, 45 }, MovieGenre.Action, MovieClass.ParentalGuidance, 99));
-            //movieCollection.AddDVD(new Movie("Jonny Bravo vol 2", new string[] { "Johnny Bravo"}, "Alfred Hitchcock", new int[] { 10, 50, 19 }, MovieGenre.Action, MovieClass.ParentalGuidance, 23));
-            //movieCollection.AddDVD(new Movie("Jonny Bravo vol 3", new string[] { "Johnny Bravo"}, "Alfred Hitchcock", new int[] { 10, 18, 25 }, MovieGenre.Action, MovieClass.ParentalGuidance, 9));
-            //movieCollection.AddDVD(new Movie("Jonny Bravo vol 4", new string[] { "Johnny Bravo"}, "Alfred Hitchcock", new int[] { 10, 23, 43 }, MovieGenre.Action, MovieClass.ParentalGuidance, 01));
-            //movieCollection.AddDVD(new Movie("The Muppets Take Manhattan", new string[] { "Kirmet"}, "Steven Speilberg", new int[] { 99, 00, 32 }, MovieGenre.Family, MovieClass.Genral, 236));
-            //movieCollection.AddDVD(new Movie("Jonny Bravo: The Movie", new string[] { "Johnny Bravo"}, "John Smith", new int[] { 90, 03, 01 }, MovieGenre.Action, MovieClass.MatureAcc, 999));
-            //for (int i = 0; i < 100; i++)
-            //{
-            //    movieCollection.AddDVD(new Movie($"Jonny Bravo vol {rng.Next(5,999)}", new string[] { "Johnny Bravo" }, "Alfred Hitchcock", new int[] { rng.Next(0,99), rng.Next(0,59), rng.Next(0,59) }, (MovieGenre)rng.Next(0,8), (MovieClass)rng.Next(0,3), rng.Next(0,899)));
-            //}
-            //CurrentMember.Update(1);
-            //for (int i = 0; i < 10000; i++)
-            //{
-            //    int member = rng.Next(0, 2);
-            //    Program.members.registeredMembers[member].Borrow(movieCollection.ListAll()[rng.Next(0, movieCollection.GetLength() - 1)]);
-            //    MovieCollection borr = Program.members.registeredMembers[rng.Next(0, 2)].borrowed;
-            //    int l = borr.GetLength();
-            //    if (l > 0)
-            //    {
-            //        Movie m = borr.ListAll()[rng.Next(0, l - 1)];
-            //        m.Return();
-            //        borr.RemoveMovie(m);
-            //    }
-            //}
+            string t;
+            members.RegisterMember(new Member("John", "Smith", "040220912", "1111", "23 applebe lane"), out t);
+            members.RegisterMember(new Member("James", "Smith", "040220912", "1234", "23 applebe lane"), out t);
+            members.RegisterMember(new Member("Johnny", "Craig", "040220912", "9999", "23 applebe lane"), out t);
+            movieCollection.AddDVD(new Movie("Jonny Bravo vol 1", new string[] { "Johnny Bravo" }, "Alfred Hitchcock", new int[] { 10, 30, 45 }, MovieGenre.Action, MovieClass.ParentalGuidance, 99));
+            movieCollection.AddDVD(new Movie("Jonny Bravo vol 2", new string[] { "Johnny Bravo" }, "Alfred Hitchcock", new int[] { 10, 50, 19 }, MovieGenre.Action, MovieClass.ParentalGuidance, 23));
+            movieCollection.AddDVD(new Movie("Jonny Bravo vol 3", new string[] { "Johnny Bravo" }, "Alfred Hitchcock", new int[] { 10, 18, 25 }, MovieGenre.Action, MovieClass.ParentalGuidance, 9));
+            movieCollection.AddDVD(new Movie("Jonny Bravo vol 4", new string[] { "Johnny Bravo" }, "Alfred Hitchcock", new int[] { 10, 23, 43 }, MovieGenre.Action, MovieClass.ParentalGuidance, 01));
+            movieCollection.AddDVD(new Movie("The Muppets Take Manhattan", new string[] { "Kirmet" }, "Steven Speilberg", new int[] { 99, 00, 32 }, MovieGenre.Family, MovieClass.Genral, 236));
+            movieCollection.AddDVD(new Movie("Jonny Bravo: The Movie", new string[] { "Johnny Bravo" }, "John Smith", new int[] { 90, 03, 01 }, MovieGenre.Action, MovieClass.MatureAcc, 999));
+            for (int i = 0; i < 100; i++)
+            {
+                movieCollection.AddDVD(new Movie($"Jonny Bravo vol {rng.Next(5, 999)}", new string[] { "Johnny Bravo" }, "Alfred Hitchcock", new int[] { rng.Next(0, 99), rng.Next(0, 59), rng.Next(0, 59) }, (MovieGenre)rng.Next(0, 8), (MovieClass)rng.Next(0, 3), rng.Next(0, 899)));
+            }
+            CurrentMember.Update(1);
+            for (int i = 0; i < 10000; i++)
+            {
+                int member = rng.Next(0, 2);
+                Program.members.registeredMembers[member].Borrow(movieCollection.ListAll()[rng.Next(0, movieCollection.GetLength() - 1)]);
+                MovieCollection borr = Program.members.registeredMembers[rng.Next(0, 2)].borrowed;
+                int l = borr.GetLength();
+                if (l > 0)
+                {
+                    Movie m = borr.ListAll()[rng.Next(0, l - 1)];
+                    m.Return();
+                    borr.RemoveMovie(m);
+                }
+            }
             //end-pre-loading=========================================================================================================
             loading = false;
             WaitHandle.WaitAll(new WaitHandle[] { waitForLoad });

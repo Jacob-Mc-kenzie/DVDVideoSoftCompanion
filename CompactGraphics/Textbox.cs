@@ -7,7 +7,7 @@ namespace CompactGraphics
     /// </summary>
     public class Textbox : Widget
     {
-        List<string> lines;
+        internal List<string> lines;
         private System.ConsoleColor flashColor;
         private System.Timers.Timer eventDelay;
         /// <summary>
@@ -41,7 +41,7 @@ namespace CompactGraphics
         /// <param name="forcolor">The color of the text</param>
         /// <param name="r">The Bounds to draw in</param>
         /// <param name="p">The relaitve location of the given top left corner</param>
-        public Textbox(string text,ConsoleColor forcolor, Rect r, DrawPoint p) :this(text,r)
+        public Textbox(string text, ConsoleColor forcolor, Rect r, DrawPoint p) : this(text, r)
         {
             this.forColor = forcolor;
             this.Pin = p;
@@ -71,7 +71,7 @@ namespace CompactGraphics
         {
             for (int i = 0; i < lines.Count; i++)
             {
-                if(Bounds.y1 + i <= Bounds.y2)
+                if (Bounds.y1 + i <= Bounds.y2)
                 {
                     g.Draw(lines[i], forColor, Bounds.x1, Bounds.y1 + i);
                 }
@@ -86,27 +86,12 @@ namespace CompactGraphics
         {
             lines = text.Wrap(Math.Abs(baseBounds.x2 - baseBounds.x1));
         }
-        public override void ReSize(Rect rect)
-        {
-            this.baseBounds = rect;
-            this.Bounds = rect.OffsetPin(this.Pin);
-        }
-        public override void PinTo(DrawPoint point)
-        {
-            this.Pin = point;
-            this.Bounds = baseBounds.OffsetPin(Pin);
-        }
-
         public override void Draw(Graphics g, ConsoleKeyInfo keyInfo)
         {
             Draw(g);
             //ToDo
         }
 
-        public override void SetColor(ConsoleColor color)
-        {
-            this.forColor = color;
-        }
-    }
 
+    }
 }
